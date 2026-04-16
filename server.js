@@ -163,6 +163,7 @@
 // ========================================================================================
 
 // ! vr4
+const PORT = process.env.PORT || 3000;
 const http = require("http");
 const fs = require("fs");
 const contentData = require("./data/content.js");
@@ -277,7 +278,9 @@ http
         sendFile("./views/404.html", "text/html");
     }
   })
-  .listen(3000, startMsg);
+  .listen(PORT, startMsg);
 function startMsg() {
-  console.log("Server is running on http://localhost:3000");
+  console.log(`Server is running on http://localhost:${PORT}`);
 }
+
+
