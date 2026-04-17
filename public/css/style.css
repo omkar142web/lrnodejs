@@ -14,6 +14,11 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  font-size: 62.5%;
+}
+
 body {
   font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--bg-color);
@@ -183,29 +188,6 @@ nav a:hover {
   background: rgba(56, 189, 248, 0.1);
 }
 
-/* Code Block */
-/* .code-block {
-  border-radius: 10px;
-  margin: 15px 0;
-  font-size: 0.9rem;
-} */
-
-.code-block {
-  background: #151515 !important;
-  padding: 1rem;
-  border-radius: 8px;
-  overflow-x: auto;
-  margin: 1.5rem 0;
-  text-align: left;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* .code-block code {
-  font-family: "Fira Code", "Courier New", monospace;
-  color: #34d399; 
-  font-size: 0.9rem;
-} */
-
 /* Lists */
 ul,
 ol {
@@ -273,4 +255,60 @@ body {
 
 .card {
   max-width: 700px; /* Increased width for better content display */
+}
+
+/* Code Container ============================ */
+.code-container {
+  margin: 20px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.code-header + pre[class*="language-"] {
+  background: #151515;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0;
+  text-align: left;
+  /* border: 1px solid rgba(255, 255, 255, 0.1); */
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2d2d2d;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.code-header button {
+  background: #444;
+  border: none;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.code-header button:hover {
+  background: #666;
+}
+
+pre {
+  margin: 0;
+  padding: 15px;
+  overflow-x: auto;
+}
+
+/* media queries */
+@media (max-width: 600px) {
+  html {
+    font-size: 55%;
+  }
 }

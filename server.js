@@ -205,8 +205,17 @@ http
                 break;
 
               case "code":
-                contentHTML += `<pre class="code-block">
-<code class="language-${block.language}">${block.code}</code></pre>`;
+                contentHTML += `
+    <div class="code-container">
+      <div class="code-header">
+            <span>
+            ${block.filename || "code"}
+            </span>
+            <button onclick="copyCode(this)">Copy</button>
+      </div>
+      <pre class="line-numbers"><code class="language-${block.language}">${block.code}</code></pre>
+    </div>
+  `;
                 break;
 
               case "list":
@@ -270,6 +279,9 @@ http
       case "/public/js/app.js":
         sendFile("public/js/app.js", "text/javascript");
         break;
+      case "/public/js/copy.js":
+        sendFile("public/js/copy.js", "text/javascript");
+        break;
       case "/favicon.ico":
         sendFile("public/favicon.ico", "image/x-icon");
         break;
@@ -282,5 +294,3 @@ http
 function startMsg() {
   console.log(`Server is running on http://localhost:${PORT}`);
 }
-
-
