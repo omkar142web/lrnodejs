@@ -75,7 +75,7 @@ nav a:hover {
   margin-bottom: 1rem;
   font-size: 2.5rem;
   background: linear-gradient(90deg, #7b30ff 0%, #8497ff 100%);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -113,7 +113,7 @@ nav a:hover {
 }
 
 .btn {
-  margin-top: 2rem;
+  margin-top: 1rem;
   display: inline-block;
   padding: 12px 32px;
   border-radius: 12px;
@@ -221,11 +221,23 @@ li {
 /* Blockquote */
 blockquote {
   border-left: 4px solid #818cf8;
-  padding-left: 1.5rem;
-  margin: 2rem 0;
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  margin: 1.5rem 0;
   font-size: 1.2rem;
   text-align: left;
+  background: hsla(230, 50%, 50%, 0.1);
+  border-radius: 0px 12px 0px;
 }
+
+hr + blockquote {
+  margin-top: 0;
+}
+
+hr:has(+ blockquote) {
+  margin-bottom: 1.2rem;
+}
+
+
 
 blockquote footer {
   margin-top: 0.5rem;
