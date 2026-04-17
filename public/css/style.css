@@ -227,6 +227,7 @@ blockquote {
   text-align: left;
   background: hsla(230, 50%, 50%, 0.1);
   border-radius: 0px 12px 0px;
+  line-height: 1.8rem;
 }
 
 hr + blockquote {
