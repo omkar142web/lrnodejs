@@ -237,8 +237,6 @@ hr:has(+ blockquote) {
   margin-bottom: 1.2rem;
 }
 
-
-
 blockquote footer {
   margin-top: 0.5rem;
   font-size: 0.9rem;
@@ -307,7 +305,7 @@ body {
   padding: 4px 10px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .code-header button:hover {
@@ -329,5 +327,9 @@ pre {
 @media (max-width: 480px) {
   html {
     font-size: 90%;
+  }
+  .code-header button {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
   }
 }
