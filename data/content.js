@@ -42,8 +42,7 @@ module.exports = {
         type: "code",
         language: "js",
         filename: "server.js",
-        code: 
-        `const http = require('http');
+        code: `const http = require('http');
 const fs = require('fs');
 
 http.createServer(() => {

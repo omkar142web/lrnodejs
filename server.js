@@ -47,7 +47,7 @@ http
             <span>
             ${block.filename || "code"}
             </span>
-            <button onclick="copyCode(this)">Copy</button>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
       </div>
       <pre class="line-numbers"><code class="language-${block.language}">${block.code}</code></pre>
     </div>
