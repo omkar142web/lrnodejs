@@ -279,6 +279,7 @@
           border-color 0.3s ease,
           box-shadow 0.3s ease;
         position: relative;
+        overflow: hidden;
       }
 
       .milestone::after {
@@ -295,6 +296,21 @@
         color: var(--error-pink);
       }
 
+      .milestone::after {
+        content: "";
+        position: absolute;
+        top: 150px;
+        right: -45px;
+        width: 150px;
+        height: 150px;
+        /* background: var(--accent); */
+        background: #6366f1;
+        filter: blur(78px);
+        opacity: 0.3;
+        pointer-events: none;
+        border-radius: 50%;
+      }
+
       .timeline {
         counter-reset: milestone-counter;
       }
@@ -307,6 +323,10 @@
             0 20px 40px -12px rgba(0, 0, 0, 0.5),
             0 0 0 1px rgba(56, 189, 248, 0.1);
         }
+
+        .milestone:hover h3 {
+          color: var(--accent);
+        }
       }
 
       .milestone h3 {
@@ -315,6 +335,7 @@
         letter-spacing: -0.2px;
         color: var(--text);
         margin-bottom: 0.75rem;
+        transition: color 0.4s ease;
       }
 
       .milestone p {
@@ -587,8 +608,8 @@
       <p class="reveal-deep">
         ❤️ You !
         <i
-          >// (Just a reminder to myself… until you’re not a Golu 😙) [// ha ha
-          thiky sorry 😏]
+          >// (Just a reminder to myself… until you’re not a Golu 😙) [ ha ha
+          thiky sorry 😏 ]
         </i>
       </p>
     </footer>
