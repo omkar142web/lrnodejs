@@ -79,6 +79,8 @@
         letter-spacing: 2px;
         color: var(--accent);
         text-shadow: 0 0 18px var(--accent-glow);
+        cursor: pointer;
+        user-select: none;
       }
 
       .main-header nav ul {
@@ -124,7 +126,7 @@
       .content-wrapper {
         max-width: 1100px;
         margin: 0 auto;
-        padding: 5rem clamp(1.5rem, 5vw, 4rem);
+        padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 3.5rem;
         display: flex;
         flex-direction: column;
         gap: 5rem;
@@ -142,7 +144,8 @@
       .bio-text h1 {
         font-size: clamp(2rem, 4.5vw, 3.2rem);
         font-weight: 800;
-        letter-spacing: -2px;
+        letter-spacing: -1px;
+        word-spacing: 1px;
         line-height: 1.1;
         margin-bottom: 1.25rem;
         background: linear-gradient(to bottom right, #f8fafc 30%, #64748b);
@@ -169,6 +172,9 @@
       .bio-text p em {
         color: var(--text);
         font-style: italic;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-right: 1px;
       }
 
       /* ─── STAT BOX ASIDE ─── */
@@ -187,6 +193,10 @@
         padding: 2rem;
         position: relative;
         overflow: hidden;
+      }
+
+      .stat-box:has(+ .stat-box) {
+        margin-bottom: 2rem;
       }
 
       /* accent corner glow */
@@ -282,6 +292,7 @@
         color: var(--accent);
         opacity: 0.5;
         letter-spacing: 1px;
+        color: var(--error-pink);
       }
 
       .timeline {
@@ -324,7 +335,21 @@
         font-family: "JetBrains Mono", monospace;
         font-size: 0.78rem;
         color: var(--muted);
-        letter-spacing: 1px;
+        /* letter-spacing: 1px; */
+      }
+
+      .main-footer p + p {
+        margin-top: 0.75rem;
+      }
+
+      /* Style the "Note to self" part */
+      .main-footer p i,
+      .main-footer p small {
+        font-family: "JetBrains Mono", monospace;
+        color: var(--muted); /* Or var(--error-pink) for a subtle pop */
+        color: var(--error-pink);
+        font-size: 0.6rem;
+        opacity: 0.7;
       }
 
       /* ─── ANIMATION ─── */
@@ -359,12 +384,40 @@
       p {
         word-spacing: 1.75px;
       }
+
+      hr.divider {
+        width: 50%;
+        margin: 2rem auto; /* Centers it and adds vertical space */
+        border: none;
+        height: 1px;
+        /* Fades the line out at the edges for a "glow" effect */
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--border),
+          transparent
+        );
+        opacity: 0.6;
+      }
+
+      .bio-text::before {
+        content: "// Omkar here 👋";
+        display: block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--accent);
+        letter-spacing: 2px;
+        margin-bottom: 1.25rem;
+        opacity: 0.85;
+      }
     </style>
   </head>
   <body>
     <header class="main-header">
       <nav>
-        <div class="logo">KNOWLEDGE_BASE</div>
+        <div class="logo" onclick="window.location.href = '/'">
+          KNOWLEDGE_BASE
+        </div>
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/about" class="active">About</a></li>
@@ -375,50 +428,92 @@
     <main class="content-wrapper">
       <section class="about-bio">
         <div class="bio-text">
-          <h1>The Story Behind the Code</h1>
+          <h1>The Story Behind This Website</h1>
+
+          <!-- <p class="lead">
+            A system where I learn, refine, and teach—so others can learn
+            alongside me.
+          </p> -->
+          <!--    <p class="lead">
+            A living system of learning, refining, and teaching—open for others
+            to follow and build on.
+          </p> -->
           <p class="lead">
-            I don't just write code; I document the "Why" behind the "How."
+            A space where we learn, refine, and teach—so others can learn
+            alongside us.
           </p>
 
           <p>
-            My journey started with a simple question:
-            <em>How does this work?</em> This curiosity turned into a passion
-            for e-learning and knowledge architecture. I believe that the best
-            way to master a language or a framework is to be able to explain it
-            to someone else—or to your future self.
+            It started with one question:
+            <em>“Do I really understand this, or am I just following it?”</em>
+            Since then, I’ve focused on breaking things down and explaining them
+            clearly— because understanding comes from clarity.
           </p>
 
           <p>
-            This website serves as my external brain. It's where I deconstruct
-            complex systems, revise core computer science fundamentals, and
-            share the resources that helped me bridge the gap from beginner to
-            builder.
+            This website is my external brain. I deconstruct concepts, rebuild
+            them in my own words, and revisit them over time—turning confusion
+            into clarity.
+          </p>
+
+          <p>
+            It’s more than an e-learning site. It’s a living system where
+            learning is visible, mistakes are part of the process, and
+            understanding keeps evolving.
           </p>
         </div>
 
         <aside class="bio-stats">
           <div class="stat-box">
-            <h4>Learning Philosophy</h4>
-            <p>Feynman Technique, Active Recall, Project-Based Immersion.</p>
+            <h4>Website Core</h4>
+            <p>
+              Don’t just write code—document it, share it, and let others learn
+              with you.
+            </p>
+          </div>
+
+          <div class="stat-box">
+            <h4>Learning System</h4>
+            <p>Learn → Break → Rebuild → Teach → Repeat</p>
+          </div>
+
+          <div class="stat-box">
+            <h4>Core Methods</h4>
+            <p>Feynman Technique, Active Recall, Real Projects, Public Notes</p>
           </div>
         </aside>
       </section>
 
       <section class="learning-roadmap">
-        <h2>The Roadmap</h2>
+        <h2>The Evolution of My Thinking</h2>
+
         <div class="timeline">
           <div class="milestone">
-            <h3>The Foundation</h3>
+            <h3>Exposure & Confusion</h3>
             <p>
-              Understanding the logic of HTML, CSS, and Vanilla JavaScript.
-              Building the muscle memory of clean syntax.
+              Starting with HTML, CSS, and JavaScript through tutorials. Things
+              worked, but I didn’t understand why. This phase was about
+              exposure—until it led to one question: “What’s actually happening
+              here?”
             </p>
           </div>
+
           <div class="milestone">
-            <h3>The Expansion</h3>
+            <h3>Breakdown & Understanding</h3>
             <p>
-              Moving into full-stack territory. Learning how data flows between
-              the client and the server.
+              I slowed down and began breaking concepts apart. Rewriting them in
+              my own words, testing ideas through small projects. It was
+              uncomfortable—but this is where real understanding began.
+            </p>
+          </div>
+
+          <div class="milestone">
+            <h3>Systems & Sharing</h3>
+            <p>
+              Moving beyond isolated concepts into systems thinking—how
+              everything connects. At the same time, documenting everything.
+              Turning learning into teaching, and confusion into clarity—for
+              myself and others.
             </p>
           </div>
         </div>
@@ -426,7 +521,15 @@
     </main>
 
     <footer class="main-footer">
-      <p>Stay Curious. Keep Coding.</p>
+      <p>Stay Curious 🔬. Keep Coding 💻.</p>
+      <!-- <p>❤️ You ! <i>// (Just a reminder to myself… Wait, what did you think, huh? 🤭) </i></p> -->
+      <p>
+        ❤️ You !
+        <i
+          >// (Just a reminder to myself… unless you’re a Golu 😙) {// ha ha
+          thiky sorry 😏}
+        </i>
+      </p>
     </footer>
   </body>
 </html>

@@ -83,6 +83,8 @@
         letter-spacing: 2px;
         color: var(--accent);
         text-shadow: 0 0 18px var(--accent-glow);
+        cursor: pointer;
+        user-select: none;
       }
 
       .main-header nav ul {
@@ -128,8 +130,10 @@
       .hero {
         display: flex;
         align-items: center;
-        min-height: calc(92vh - 64px);
-        padding: 5rem clamp(1.5rem, 5vw, 4rem);
+        /* min-height: calc(92vh - 64px); */
+        min-height: calc(92vh - 110px);
+        /* padding: 5rem clamp(1.5rem, 5vw, 4rem); */
+        padding: 2.2rem clamp(1.5rem, 5vw, 4rem) 3rem;
         position: relative;
         overflow: hidden;
       }
@@ -173,7 +177,7 @@
 
       /* Small eyebrow label above h1 */
       .hero-content::before {
-        content: "// KNOWLEDGE_BASE v2.0";
+        content: "// KNOWLEDGE_BASE v1.7";
         display: block;
         font-family: "JetBrains Mono", monospace;
         font-size: 0.75rem;
@@ -187,7 +191,8 @@
         font-size: clamp(2.4rem, 6vw, 4.2rem);
         font-weight: 800;
         letter-spacing: -2px;
-        line-height: 1.1;
+        /* line-height: 1.1; */
+        line-height: 1.2;
         margin-bottom: 1.5rem;
         background: linear-gradient(to bottom right, #f8fafc 30%, #64748b);
         -webkit-background-clip: text;
@@ -207,6 +212,7 @@
         display: flex;
         gap: 1rem;
         flex-wrap: wrap;
+        word-spacing: 1.5px;
       }
 
       .btn-primary,
@@ -248,7 +254,9 @@
 
       /* ─── KNOWLEDGE GRID ─── */
       .knowledge-grid {
-        padding: 6rem clamp(1.5rem, 5vw, 4rem);
+        /* padding: 6rem clamp(1.5rem, 5vw, 4rem); */
+        /* padding: 4rem clamp(1.5rem, 5vw, 4rem); */
+        padding: 3rem clamp(1.5rem, 5vw, 4rem);
         max-width: 1100px;
         margin: 0 auto;
       }
@@ -423,7 +431,8 @@
         display: flex;
         justify-content: center;
         gap: 1.2rem;
-        margin-top: 1.5rem;
+        /* margin-top: 1.5rem; */
+        margin-top: 2rem;
         flex-wrap: wrap; /* Ensures it looks good on mobile */
       }
 
@@ -448,7 +457,8 @@
       }
 
       /* Optional: Add a separator dot between links for a desktop look */
-      @media (min-width: 600px) {
+      /* @media (min-width: 600px) { */
+      @media (min-width: 512px) {
         .main-footer ul li:not(:last-child)::after {
           content: "•";
           color: var(--border);
@@ -461,12 +471,49 @@
       p {
         word-spacing: 1px;
       }
+
+      .footer-line {
+        margin-top: 0.75rem;
+      }
+
+      hr.divider {
+        width: 85%;
+        margin: 1px auto; /* Centers it and adds vertical space */
+        border: none;
+        height: 2px;
+        /* Fades the line out at the edges for a "glow" effect */
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--border),
+          transparent
+        );
+        opacity: 0.8;
+      }
+
+      .main-footer em,
+      .main-footer em a {
+        font-style: normal;
+        color: var(--accent);
+        color: rgb(56, 189, 248);
+        color: var(--error-pink);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      @media (max-width: 390px) {
+        .main-footer ul {
+          gap: 0.6rem;
+        }
+      }
     </style>
   </head>
   <body>
     <header class="main-header">
       <nav>
-        <div class="logo">KNOWLEDGE_BASE</div>
+        <div class="logo" onclick="window.location.href = '/'">
+          KNOWLEDGE_BASE
+        </div>
         <ul>
           <li><a href="/" class="active">Home</a></li>
           <li><a href="/about">About</a></li>
@@ -479,34 +526,42 @@
     <main>
       <section class="hero">
         <div class="hero-content">
-          <h1>Synthesizing Code, Logic, and Creative Growth.</h1>
+          <h1>Learning in Public. Thinking in Systems.</h1>
           <p>
             Welcome to my digital garden. This isn't just a portfolio; it's a
             repository of every concept I've mastered, every bug I've fought,
-            and the documentation of my evolution as a developer.
+            and the documentation of my evolution as a developer. Every concept
+            here is something I’ve questioned, struggled with, and finally
+            understood.
           </p>
           <div class="cta-buttons">
-            <a href="#learnings" class="btn-primary">Explore My Notes</a>
+            <a href="#learnings" class="btn-primary">Explore My Thinking</a>
             <a href="/about" class="btn-secondary">Who am I?</a>
           </div>
         </div>
       </section>
 
+      <hr class="divider" />
+
       <section id="learnings" class="knowledge-grid">
         <header class="section-intro">
-          <h2>Current Learning Sprints</h2>
-          <p>Deep dives into specialized fields and languages.</p>
+          <h2>Active Learning Systems</h2>
+          <p>
+            Not tutorials. Not notes. These are evolving mental models I
+            actively refine. Deep dives into specialized fields and languages.
+          </p>
         </header>
 
         <div class="grid-container">
           <article class="topic-card">
             <span class="tag">Backend</span>
-            <h3>Node.js & Asynchronous Patterns</h3>
+            <h3>Node.js & Async Thinking</h3>
             <p>
-              Mastering the Event Loop, Promises, and scalable architecture.
-              Documentation of my journey through the Node.js runtime.
+              Understanding how the Event Loop, Promises, and scalable
+              architecture work. Documentation of my journey through the Node.js
+              runtime.
             </p>
-            <a href="#" class="read-more">View Revision Notes →</a>
+            <a href="#" class="read-more">Dive into Notes →</a>
           </article>
 
           <article class="topic-card">
@@ -516,29 +571,40 @@
               Beyond basic layouts. Exploring motion design, accessibility, and
               the logic behind beautiful interfaces.
             </p>
-            <a href="#" class="read-more">View Revision Notes →</a>
+            <a href="#" class="read-more">Explore Concepts →</a>
           </article>
 
           <article class="topic-card">
-            <span class="tag">Philosophy</span>
-            <h3>The Meta-Learning Process</h3>
+            <span class="tag">Meta</span>
+            <h3>Learning How to Learn</h3>
             <p>
-              How I learn to learn. Strategies for retaining complex
-              documentation and building mental models.
+              Breaking down how I absorb complex topics, revise effectively, and
+              build long-term understanding.
             </p>
-            <a href="#" class="read-more">View Revision Notes →</a>
+            <a href="#" class="read-more">View Framework →</a>
           </article>
         </div>
       </section>
     </main>
 
     <footer class="main-footer">
-      <p>&copy; 2026 Coding Journey. Built with intent.</p>
+      <p>
+        &copy; 2026 — A system by
+        <em
+          ><a
+            href="https://www.instagram.com/quietuntold?igsh=MWlzeGpyeGliNDl4dQ=="
+            target="_blank"
+            >Omkar</a
+          ></em
+        >
+        of thoughts, experiments, and evolving understanding.
+      </p>
+
       <ul>
         <li><a href="/" class="active">Home</a></li>
         <li><a href="/about">About</a></li>
         <li><a href="/learnings">Learnings</a></li>
-        <li><a href="/stack">My Stack</a></li>
+        <li><a href="/stack">Stack</a></li>
       </ul>
     </footer>
   </body>
