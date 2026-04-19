@@ -18,10 +18,16 @@
         --error-pink: #ff75a0;
       }
 
-      * {
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
+      }
+
+      html {
+        overflow: hidden; /* ← clips the blobs at the html level */
       }
 
       body {
@@ -45,6 +51,7 @@
         align-items: center;
         min-height: 100vh;
         overflow: hidden;
+        position: relative;
       }
 
       .card {
