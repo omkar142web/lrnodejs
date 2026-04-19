@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Stack // The System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ─── TOKENS ─── */
+      :root {
+        --bg: #0f172a;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --accent: #38bdf8;
+        --accent-glow: rgba(56, 189, 248, 0.3);
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --border: rgba(255, 255, 255, 0.08);
+        --error-pink: #ff75a0;
+      }
+
+      /* ─── RESET ─── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
+
+      /* ─── BASE ─── */
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: var(--bg);
+        background-image:
+          radial-gradient(
+            at 0% 0%,
+            rgba(56, 189, 248, 0.12) 0px,
+            transparent 55%
+          ),
+          radial-gradient(
+            at 100% 100%,
+            rgba(99, 102, 241, 0.12) 0px,
+            transparent 55%
+          );
+        color: var(--text);
+        min-height: 100dvh;
+        line-height: 1.6;
+      }
+
+      p {
+        word-spacing: 1px;
+      }
+
+      /* ─── SCROLLBAR ─── */
+      body::-webkit-scrollbar {
+        width: 8px;
+      }
+      body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      body::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+      body::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      /* ─── HEADER / NAV ─── */
+      .main-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 0 clamp(1.5rem, 5vw, 4rem);
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .main-header nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1100px;
+        margin: 0 auto;
+        height: 64px;
+      }
+
+      .logo {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--accent);
+        text-shadow: 0 0 18px var(--accent-glow);
+        cursor: pointer;
+        user-select: none;
+        text-decoration: none;
+      }
+
+      .main-header nav ul {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+      }
+
+      .main-header nav ul li a {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.25s ease;
+        position: relative;
+        padding-bottom: 4px;
+      }
+
+      .main-header nav ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1.5px;
+        background: var(--accent);
+        transition: width 0.3s ease;
+      }
+
+      .main-header nav ul li a:hover,
+      .main-header nav ul li a.active {
+        color: var(--text);
+      }
+
+      .main-header nav ul li a.active::after,
+      .main-header nav ul li a:hover::after {
+        width: 100%;
+      }
+
+      /* ─── FOOTER ─── */
+      .main-footer {
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        border-top: 1px solid var(--border);
+        margin-top: 4rem;
+      }
+
+      .main-footer p {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--muted);
+        letter-spacing: 1px;
+      }
+
+      /* ─── ANIMATION ─── */
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ══════════════════════════════════
+         STACK PAGE STYLES
+         ══════════════════════════════════ */
+
+      /* ── Hero ── */
+      .stack-hero {
+        padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 2rem;
+        max-width: 1100px;
+        margin: 0 auto;
+        animation: slideUp 0.7s ease-out both;
+      }
+
+      .stack-hero .eyebrow {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--accent);
+        letter-spacing: 2px;
+        opacity: 0.85;
+        margin-bottom: 1.25rem;
+        display: block;
+      }
+
+      .stack-hero h1 {
+        font-size: clamp(2rem, 5vw, 3.4rem);
+        font-weight: 800;
+        letter-spacing: -2px;
+        line-height: 1.1;
+        margin-bottom: 1.25rem;
+        background: linear-gradient(to bottom right, #f8fafc 30%, #64748b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .stack-hero p {
+        font-size: 1rem;
+        color: var(--muted);
+        max-width: 580px;
+        line-height: 1.85;
+      }
+
+      /* ── Category Sections ── */
+      .stack-body {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem clamp(1.5rem, 5vw, 4rem) 5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+      }
+
+      .stack-category {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      .category-label {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .category-label h2 {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: var(--accent);
+        white-space: nowrap;
+      }
+
+      .category-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, var(--border), transparent);
+      }
+
+      /* ── Stack Cards Grid ── */
+      .stack-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.25rem;
+      }
+
+      .stack-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        transition:
+          transform 0.3s ease,
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Subtle top-left corner accent */
+      .stack-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 60px;
+        height: 60px;
+        background: var(--accent);
+        filter: blur(40px);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+      }
+
+      @media (hover: hover) {
+        .stack-card:hover {
+          transform: translateY(-4px);
+          border-color: rgba(56, 189, 248, 0.2);
+          box-shadow:
+            0 20px 40px -12px rgba(0, 0, 0, 0.5),
+            0 0 0 1px rgba(56, 189, 248, 0.08);
+        }
+
+        .stack-card:hover::before {
+          opacity: 0.12;
+        }
+      }
+
+      /* Icon / Badge area */
+      .card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.25rem;
+      }
+
+      .tool-name {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: -0.2px;
+      }
+
+      .tool-badge {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.62rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        padding: 3px 9px;
+        border-radius: 6px;
+        white-space: nowrap;
+      }
+
+      /* Badge color variants */
+      .badge-active {
+        color: var(--accent);
+        background: rgba(56, 189, 248, 0.08);
+        border: 1px solid rgba(56, 189, 248, 0.18);
+      }
+
+      .badge-building {
+        color: #a78bfa;
+        background: rgba(167, 139, 250, 0.08);
+        border: 1px solid rgba(167, 139, 250, 0.18);
+      }
+
+      .badge-learning {
+        color: var(--error-pink);
+        background: rgba(255, 117, 160, 0.08);
+        border: 1px solid rgba(255, 117, 160, 0.2);
+      }
+
+      .badge-system {
+        color: #34d399;
+        background: rgba(52, 211, 153, 0.08);
+        border: 1px solid rgba(52, 211, 153, 0.18);
+      }
+
+      /* Description */
+      .tool-desc {
+        font-size: 0.855rem;
+        color: var(--muted);
+        line-height: 1.75;
+        flex-grow: 1;
+      }
+
+      /* Role tag at bottom */
+      .tool-role {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--accent);
+        opacity: 0.55;
+        letter-spacing: 0.5px;
+        margin-top: 0.5rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .tool-role::before {
+        content: "→ ";
+      }
+
+      /* ── Closing Section ── */
+      .stack-closing {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 clamp(1.5rem, 5vw, 4rem) 5rem;
+        animation: slideUp 0.7s ease-out 0.3s both;
+      }
+
+      .closing-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .closing-card::before {
+        content: "";
+        position: absolute;
+        bottom: -60px;
+        right: -60px;
+        width: 200px;
+        height: 200px;
+        background: #6366f1;
+        filter: blur(80px);
+        opacity: 0.12;
+        pointer-events: none;
+      }
+
+      .closing-card::after {
+        content: "";
+        position: absolute;
+        top: -60px;
+        left: -60px;
+        width: 180px;
+        height: 180px;
+        background: var(--accent);
+        filter: blur(80px);
+        opacity: 0.08;
+        pointer-events: none;
+      }
+
+      .closing-text {
+        position: relative;
+        z-index: 1;
+      }
+
+      .closing-text span {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--accent);
+        display: block;
+        margin-bottom: 0.75rem;
+        opacity: 0.8;
+      }
+
+      .closing-text p {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.65;
+        letter-spacing: -0.2px;
+      }
+
+      .closing-text p em {
+        font-style: italic;
+        color: var(--muted);
+        font-weight: 400;
+      }
+
+      /* ── Reveal Animation ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* stagger per child card */
+      .stack-grid .stack-card:nth-child(1) {
+        transition-delay: 0.05s;
+      }
+      .stack-grid .stack-card:nth-child(2) {
+        transition-delay: 0.12s;
+      }
+      .stack-grid .stack-card:nth-child(3) {
+        transition-delay: 0.19s;
+      }
+      .stack-grid .stack-card:nth-child(4) {
+        transition-delay: 0.26s;
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 600px) {
+        .stack-hero h1 {
+          letter-spacing: -1px;
+        }
+        .closing-card {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .main-header nav ul {
+          gap: 1.25rem;
+        }
+
+        nav li:has(a[href="/learnings"]),
+        nav li:has(a[href="/projects"]),
+        nav li:has(a[href="/about"]) {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="main-header">
+      <nav>
+        <div class="logo">KNOWLEDGE_BASE</div>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/projects">Projects</a></li>
+          <li><a href="/stack" class="active">My Stack</a></li>
+          <li><a href="/learnings">Learnings</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ── Hero ── -->
+      <section class="stack-hero">
+        <span class="eyebrow">// system.info</span>
+        <h1>Tools I Think With.</h1>
+        <p>
+          This isn't a resume. It's a map of the tools that shape how I reason,
+          build, and understand. Each entry here earned its place not just by
+          being useful, but by changing how I think about a problem.
+        </p>
+      </section>
+
+      <!-- ── Stack Body ── -->
+      <div class="stack-body">
+        <!-- ── Foundations ── -->
+        <section class="stack-category reveal">
+          <div class="category-label">
+            <h2>Foundations</h2>
+          </div>
+
+          <div class="stack-grid">
+            <div class="stack-card">
+              <div class="card-top">
+                <span class="tool-name">HTML</span>
+                <span class="tool-badge badge-active">Active</span>
+              </div>
+              <p class="tool-desc">
+                The skeleton of every idea. I treat it as a semantic contract
+                between content and meaning — not just tags, but intention made
+                structural.
+              </p>
+              <div class="tool-role">
+                Document structure & semantic architecture
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="card-top">
+                <span class="tool-name">CSS</span>
+                <span class="tool-badge badge-active">Active</span>
+              </div>
+              <p class="tool-desc">
+                Where logic meets aesthetics. I use CSS as a design thinking
+                tool — constraint-based, cascade-aware, and deeply intentional
+                about how space communicates.
+              </p>
+              <div class="tool-role">
+                Visual reasoning & interface design language
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="card-top">
+                <span class="tool-name">JavaScript</span>
+                <span class="tool-badge badge-building">Building</span>
+              </div>
+              <p class="tool-desc">
+                The language I use to think about state, events, and time.
+                Learning it deeply — not just syntax, but the mental model of
+                how the runtime thinks.
+              </p>
+              <div class="tool-role">Logic layer & behavioral architecture</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Systems ── -->
+        <section class="stack-category reveal">
+          <div class="category-label">
+            <h2>Systems</h2>
+          </div>
+
+          <div class="stack-grid">
+            <div class="stack-card">
+              <div class="card-top">
+                <span class="tool-name">Node.js</span>
+                <span class="tool-badge badge-learning">Learning</span>
+              </div>
+              <p class="tool-desc">
+                My entry point into backend thinking. Understanding how a server
+                receives, processes, and responds changed how I think about the
+                web as a living system — not a static document.
+              </p>
+              <div class="tool-role">
+                Server-side reasoning & async mental models
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="card-top">
+                <span class="tool-name">HTTP & APIs</span>
+                <span class="tool-badge badge-learning">Learning</span>
+              </div>
+              <p class="tool-desc">
+                Understanding that the web is just structured conversation —
+                requests, responses, contracts. This changed how I think about
+                every app I build or use.
+              </p>
+              <div class="tool-role">
+                Communication protocols & data flow thinking
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Tools ── -->
+        <section class="stack-category reveal">
+          <div class="category-label">
+            <h2>Tools</h2>
+          </div>
+
+          <div class="stack-grid">
+            <div class="stack-card">
+              <div class="card-top">
+                <span class="tool-name">VS Code</span>
+                <span class="tool-badge badge-active">Active</span>
+              </div>
+              <p class="tool-desc">
+                My thinking environment. Not just an editor — a space where
+                code, notes, and terminals coexist. I customize it to match how
+                I actually think, not how the defaults suggest.
+              </p>
+              <div class="tool-role">
+                Primary environment for writing & debugging
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="card-top">
+                <span class="tool-name">Git</span>
+                <span class="tool-badge badge-active">Active</span>
+              </div>
+              <p class="tool-desc">
+                A time machine and a discipline. Using Git taught me to think in
+                snapshots — to commit ideas in their incomplete states and
+                iterate consciously.
+              </p>
+              <div class="tool-role">
+                Version control & iteration discipline
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="card-top">
+                <span class="tool-name">Browser DevTools</span>
+                <span class="tool-badge badge-system">System</span>
+              </div>
+              <p class="tool-desc">
+                My debugger, inspector, and laboratory. The place where theory
+                breaks against reality — and understanding is actually built,
+                one console log at a time.
+              </p>
+              <div class="tool-role">
+                Inspection, debugging & runtime analysis
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Learning Tools ── -->
+        <section class="stack-category reveal">
+          <div class="category-label">
+            <h2>Learning System</h2>
+          </div>
+
+          <div class="stack-grid">
+            <div class="stack-card">
+              <div class="card-top">
+                <span class="tool-name">Feynman Technique</span>
+                <span class="tool-badge badge-system">System</span>
+              </div>
+              <p class="tool-desc">
+                If I can't explain it simply, I don't understand it yet. Every
+                page on this site is an attempt at explaining something to my
+                past self — and proving I've crossed the threshold.
+              </p>
+              <div class="tool-role">
+                Comprehension validation & knowledge compression
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="card-top">
+                <span class="tool-name">Active Recall</span>
+                <span class="tool-badge badge-system">System</span>
+              </div>
+              <p class="tool-desc">
+                I don't re-read — I reconstruct. Testing retrieval instead of
+                reviewing notes forces the brain to build stronger pathways. The
+                discomfort is the point.
+              </p>
+              <div class="tool-role">
+                Memory consolidation & retention architecture
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="card-top">
+                <span class="tool-name">This Website</span>
+                <span class="tool-badge badge-building">Building</span>
+              </div>
+              <p class="tool-desc">
+                My external memory and accountability system. Writing publicly
+                forces clarity. If I can't articulate a concept here, it means I
+                haven't internalized it yet.
+              </p>
+              <div class="tool-role">
+                Public documentation & knowledge externalization
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="card-top">
+                <span class="tool-name">MDN Docs</span>
+                <span class="tool-badge badge-active">Active</span>
+              </div>
+              <p class="tool-desc">
+                The ground truth. Before any tutorial, I read the spec.
+                Understanding where knowledge comes from — rather than just its
+                interpretation — changes how deeply it sticks.
+              </p>
+              <div class="tool-role">
+                Primary source reference & first-principles learning
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- end .stack-body -->
+
+      <!-- ── Closing ── -->
+      <div class="stack-closing">
+        <div class="closing-card reveal">
+          <div class="closing-text">
+            <span>// v1.0 → ongoing</span>
+            <p>
+              This stack will evolve as my understanding evolves.<br />
+              <em>The tools aren't the goal — the thinking they enable is.</em>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="main-footer">
+      <p>Stay Curious 🔬. Keep Coding 💻.</p>
+    </footer>
+
+    <script>
+      // Intersection Observer for scroll-triggered reveals
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("active");
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

@@ -380,6 +380,12 @@
         .main-header nav ul {
           gap: 1.25rem;
         }
+
+        nav li:has(a[href="/learnings"]),
+        nav li:has(a[href="/stack"]),
+        nav li:has(a[href="/projects"]) {
+          display: none;
+        }
       }
 
       p {
@@ -473,6 +479,9 @@
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/about" class="active">About</a></li>
+          <li><a href="/projects">Projects</a></li>
+          <li><a href="/stack">My Stack</a></li>
+          <li><a href="/learnings">Learnings</a></li>
         </ul>
       </nav>
     </header>

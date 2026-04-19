@@ -26,6 +26,10 @@ const server = http.createServer((req, res) => {
     sendfile(res, "views/stack.html");
 
     // ==========================================
+  } else if (req.url === "/projects") {
+    sendfile(res, "views/projects.html");
+
+    // ==========================================
   } else {
     routeError(res);
   }

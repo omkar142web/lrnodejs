@@ -441,9 +441,9 @@
           text-align: center;
         }
 
-        nav li:has(a[href="/"]),
         nav li:has(a[href="/learnings"]),
-        nav li:has(a[href="/stack"]) {
+        nav li:has(a[href="/stack"]),
+        nav li:has(a[href="/projects"]) {
           display: none;
         }
       }
@@ -556,8 +556,9 @@
         <ul>
           <li><a href="/" class="active">Home</a></li>
           <li><a href="/about">About</a></li>
-          <li><a href="/learnings">Learnings</a></li>
+          <li><a href="/projects">Projects</a></li>
           <li><a href="/stack">My Stack</a></li>
+          <li><a href="/learnings">Learnings</a></li>
         </ul>
       </nav>
     </header>
@@ -576,6 +577,7 @@
           <div class="cta-buttons">
             <a href="#learnings" class="btn-primary">Explore My Thinking</a>
             <a href="/about" class="btn-secondary">Who am I?</a>
+            <a href="/projects" class="btn-secondary">Builds & Experiments</a>
           </div>
         </div>
       </section>
