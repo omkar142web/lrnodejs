@@ -335,7 +335,6 @@
         font-family: "JetBrains Mono", monospace;
         font-size: 0.78rem;
         color: var(--muted);
-        /* letter-spacing: 1px; */
       }
 
       .main-footer p + p {
@@ -411,6 +410,57 @@
         margin-bottom: 1.25rem;
         opacity: 0.85;
       }
+
+      .stat-box:nth-child(1),
+      .milestone:nth-child(1) {
+        transition-delay: 0.1s;
+      }
+      .stat-box:nth-child(2),
+      .milestone:nth-child(2) {
+        transition-delay: 0.2s;
+      }
+      .stat-box:nth-child(3),
+      .milestone:nth-child(3) {
+        transition-delay: 0.3s;
+      }
+
+      /* Reveal low content*/
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.5s ease;
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Reveal deep content*/
+      .reveal-deep {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.5s ease;
+      }
+      .reveal-deep.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Custom scrollbar */
+      body::-webkit-scrollbar {
+        width: 8px;
+      }
+      body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      body::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+      body::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
     </style>
   </head>
   <body>
@@ -465,7 +515,7 @@
         </div>
 
         <aside class="bio-stats">
-          <div class="stat-box">
+          <div class="stat-box reveal">
             <h4>Website Core</h4>
             <p>
               Don’t just write code—document it, share it, and let others learn
@@ -473,12 +523,12 @@
             </p>
           </div>
 
-          <div class="stat-box">
+          <div class="stat-box reveal">
             <h4>Learning System</h4>
             <p>Learn → Break → Rebuild → Teach → Repeat</p>
           </div>
 
-          <div class="stat-box">
+          <div class="stat-box reveal">
             <h4>Core Methods</h4>
             <p>Feynman Technique, Active Recall, Real Projects, Public Notes</p>
           </div>
@@ -489,7 +539,7 @@
         <h2>The Evolution of My Thinking</h2>
 
         <div class="timeline">
-          <div class="milestone">
+          <div class="milestone reveal">
             <h3>Exposure & Confusion</h3>
             <p>
               Starting with HTML, CSS, and JavaScript through tutorials. Things
@@ -499,7 +549,7 @@
             </p>
           </div>
 
-          <div class="milestone">
+          <div class="milestone reveal">
             <h3>Breakdown & Understanding</h3>
             <p>
               I slowed down and began breaking concepts apart. Rewriting them in
@@ -508,7 +558,7 @@
             </p>
           </div>
 
-          <div class="milestone">
+          <div class="milestone reveal">
             <h3>Systems & Sharing</h3>
             <p>
               Moving beyond isolated concepts into systems thinking—how
@@ -524,7 +574,7 @@
     <footer class="main-footer">
       <p>Stay Curious 🔬. Keep Coding 💻.</p>
       <!-- <p>❤️ You ! <i>// (Just a reminder to myself… Wait, what did you think, huh? 🤭) </i></p> -->
-      <p>
+      <p class="reveal-deep">
         ❤️ You !
         <i
           >// (Just a reminder to myself… unless you’re a Golu 😙) [// ha ha
@@ -532,5 +582,34 @@
         </i>
       </p>
     </footer>
+    <script>
+      const normal = document.querySelectorAll(".reveal:not(.reveal-deep)");
+      const deep = document.querySelectorAll(".reveal-deep");
+
+      const observerLow = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("active");
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      const observerHigh = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("active");
+            }
+          });
+        },
+        { threshold: 0.9 },
+      );
+
+      normal.forEach((el) => observerLow.observe(el));
+      deep.forEach((el) => observerHigh.observe(el));
+    </script>
   </body>
 </html>

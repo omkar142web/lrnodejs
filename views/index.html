@@ -305,10 +305,10 @@
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
-        animation: slideUp 0.6s ease-out both;
+        /* animation: slideUp 0.6s ease-out both; */
       }
 
-      .topic-card:nth-child(1) {
+      /* .topic-card:nth-child(1) {
         animation-delay: 0.1s;
       }
       .topic-card:nth-child(2) {
@@ -316,6 +316,29 @@
       }
       .topic-card:nth-child(3) {
         animation-delay: 0.3s;
+      } */
+
+      .topic-card:nth-child(1) {
+        transition-delay: 0.1s;
+      }
+      .topic-card:nth-child(2) {
+        transition-delay: 0.2s;
+      }
+      .topic-card:nth-child(3) {
+        transition-delay: 0.3s;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
       }
 
       @media (hover: hover) {
@@ -431,7 +454,6 @@
         display: flex;
         justify-content: center;
         gap: 1.2rem;
-        /* margin-top: 1.5rem; */
         margin-top: 2rem;
         flex-wrap: wrap; /* Ensures it looks good on mobile */
       }
@@ -457,7 +479,6 @@
       }
 
       /* Optional: Add a separator dot between links for a desktop look */
-      /* @media (min-width: 600px) { */
       @media (min-width: 512px) {
         .main-footer ul li:not(:last-child)::after {
           content: "•";
@@ -506,6 +527,24 @@
           gap: 0.6rem;
         }
       }
+
+      /* Custom scrollbar */
+      body::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      body::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+
+      body::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
     </style>
   </head>
   <body>
@@ -553,7 +592,7 @@
         </header>
 
         <div class="grid-container">
-          <article class="topic-card">
+          <article class="topic-card reveal">
             <span class="tag">Backend</span>
             <h3>Node.js & Async Thinking</h3>
             <p>
@@ -564,7 +603,7 @@
             <a href="#" class="read-more">Dive into Notes →</a>
           </article>
 
-          <article class="topic-card">
+          <article class="topic-card reveal">
             <span class="tag">Frontend</span>
             <h3>Modern CSS & Animation</h3>
             <p>
@@ -574,7 +613,7 @@
             <a href="#" class="read-more">Explore Concepts →</a>
           </article>
 
-          <article class="topic-card">
+          <article class="topic-card reveal">
             <span class="tag">Meta</span>
             <h3>Learning How to Learn</h3>
             <p>
@@ -607,5 +646,23 @@
         <li><a href="/stack">Stack</a></li>
       </ul>
     </footer>
+    <script>
+      const elements = document.querySelectorAll(".reveal");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("active");
+            }
+          });
+        },
+        {
+          threshold: 0.2, // Trigger when 10% of the element is visible
+        },
+      );
+
+      elements.forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>
