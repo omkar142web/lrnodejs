@@ -1,132 +1,75 @@
-// ! vr4 will be learning from here.. gonna commit this now
-const PORT = process.env.PORT || 3000;
 const http = require("http");
 const fs = require("fs");
-const contentData = require("./data/content.js");
-http
-  .createServer((req, res) => {
-    function sendFile(filePath, contentType, pageKey) {
-      fs.readFile(filePath, "utf-8", (err, fileData) => {
-        if (pageKey) {
-          const page = contentData[pageKey] || {};
+const PORT = process.env.PORT || 3000;
 
-          const title = page.title || "Default Title";
-          const blocks = page.blocks || [];
+const server = http.createServer((req, res) => {
+  res.setHeader("content-type", "text/html");
+  res.statusCode = 200;
 
-          let contentHTML = "";
+  if (req.url === "/") {
+    // fs.readFile("../views/form.html", "utf-8", (err, fileData) => {
+    //   if (err) {
+    //     fsError(res);
+    //     return;
+    //   }
+    //   res.end(fileData);
+    // });
 
-          blocks.forEach((block) => {
-            switch (block.type) {
-              case "heading":
-                contentHTML += `<h${block.level || 2}>${block.text}</h${block.level || 2}>`;
-                break;
+    sendfile(res, "views/index.html");
 
-              case "para":
-                contentHTML += `<p>${block.text}</p>`;
-                break;
+    // ==========================================
+  } else if (req.url === "/about") {
+    sendfile(res, "views/about.html");
 
-              case "example":
-                contentHTML += `
-        <div class="example">
-          ${block.title ? `<strong>${block.title}</strong>` : ""}
-          <p>${block.text}</p>
-        </div>`;
-                break;
+    // ==========================================
+  } else if (req.url === "/stack") {
+    sendfile(res, "views/stack.html");
 
-              case "note":
-                contentHTML += `
-        <div class="note ${block.variant || ""}">
-          ${block.text}
-        </div>`;
-                break;
+    // ==========================================
+  } else {
+    routeError(res);
+  }
+});
 
-              case "code":
-                contentHTML += `
-    <div class="code-container">
-      <div class="code-header">
-            <span>
-            ${block.filename || "code"}
-            </span>
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      </div>
-      <pre class="line-numbers"><code class="language-${block.language}">${block.code}</code></pre>
-    </div>
-  `;
-                break;
+server.listen(PORT, startMsg);
 
-              case "list":
-                const tag = block.ordered ? "ol" : "ul";
-                contentHTML += `<${tag}>`;
-                block.items.forEach((item) => {
-                  contentHTML += `<li>${item}</li>`;
-                });
-                contentHTML += `</${tag}>`;
-                break;
-
-              case "image":
-                contentHTML += `
-        <div class="image-block">
-          <img src="${block.src}" alt="${block.alt || ""}" />
-          ${block.caption ? `<p class="caption">${block.caption}</p>` : ""}
-        </div>`;
-                break;
-
-              case "quote":
-                contentHTML += `
-        <blockquote>
-          "${block.text}"
-          ${block.author ? `<footer>~ ${block.author}</footer>` : ""}
-        </blockquote>`;
-                break;
-
-              case "divider":
-                contentHTML += `<hr />`;
-                break;
-
-              default:
-                contentHTML += ``;
-            }
-          });
-
-          fileData = fileData
-            .replace(/{{title}}/g, title)
-            .replace(/{{content}}/g, contentHTML);
-        }
-
-        res.writeHead(200, { "content-type": contentType });
-        res.end(fileData);
-      });
-    }
-
-    switch (req.url) {
-      case "/":
-        sendFile("./views/index.html", "text/html", "home");
-        break;
-      case "/about":
-        sendFile("./views/about.html", "text/html", "about");
-        break;
-      case "/404":
-        sendFile("./views/404.html", "text/html");
-        break;
-
-      case "/public/css/style.css":
-        sendFile("public/css/style.css", "text/css");
-        break;
-      case "/public/js/app.js":
-        sendFile("public/js/app.js", "text/javascript");
-        break;
-      case "/public/js/copy.js":
-        sendFile("public/js/copy.js", "text/javascript");
-        break;
-      case "/favicon.ico":
-        sendFile("public/favicon.ico", "image/x-icon");
-        break;
-
-      default:
-        sendFile("./views/404.html", "text/html");
-    }
-  })
-  .listen(PORT, startMsg);
 function startMsg() {
   console.log(`Server is running on http://localhost:${PORT}`);
+}
+
+// functions * * * * * * * * * * * * * * * * * * * * *
+
+function sendfile(res, filePath) {
+  fs.readFile(filePath, "utf-8", (fserr, fileData) => {
+    if (fserr) {
+      fsError(res);
+      return;
+    }
+    res.end(fileData);
+  });
+}
+
+function routeError(res) {
+  res.statusCode = 404;
+
+  fs.readFile("views/4042.html", "utf-8", (errOfrouteErr, routeErrData) => {
+    res.setHeader("content-type", "text/html");
+    if (errOfrouteErr) {
+      res.end("Even the Route-Error page not found! hehe :)");
+      return;
+    }
+    res.end(routeErrData);
+    return;
+  });
+}
+
+function fsError(res) {
+  fs.readFile("views/fserr.html", "utf-8", (errOferrorData, errorData) => {
+    res.statusCode = 404;
+    if (errOferrorData) {
+      res.end("Even the 404 // FILE_READ_ERROR page not found! :(");
+      return;
+    }
+    res.end(errorData);
+  });
 }

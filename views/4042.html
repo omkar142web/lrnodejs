@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 // Page Not Found</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --accent: #38bdf8;
+        --accent-glow: rgba(56, 189, 248, 0.3);
+        --text: #f8fafc;
+        --error-pink: #ff75a0;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: var(--bg);
+        /* Matches your Contact/Success Mesh Gradient */
+        background-image:
+          radial-gradient(
+            at 0% 0%,
+            rgba(56, 189, 248, 0.15) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 100% 100%,
+            rgba(99, 102, 241, 0.15) 0px,
+            transparent 50%
+          );
+        color: var(--text);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      .card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 50px 40px;
+        border-radius: 24px;
+        width: 90%;
+        max-width: 450px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        animation: slideUp 0.6s ease-out;
+      }
+
+      /* Big 404 Text */
+      h1 {
+        font-size: 6rem;
+        font-weight: 800;
+        letter-spacing: -4px;
+        background: linear-gradient(to bottom, #fff 30%, #94a3b8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1rem;
+        text-transform: uppercase;
+        color: var(--accent);
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+      }
+
+      p {
+        color: #94a3b8;
+        margin-bottom: 25px;
+        line-height: 1.7;
+      }
+
+      /* The Error Tag (Using the pink theme you liked) */
+      .error-tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--error-pink);
+        background: rgba(233, 30, 99, 0.1);
+        border: 1px solid rgba(233, 30, 99, 0.3);
+        padding: 8px 16px;
+        border-radius: 8px;
+        display: inline-block;
+        margin-bottom: 30px;
+        text-shadow: 0 0 10px rgba(255, 117, 160, 0.3);
+      }
+
+      .btn-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .btn {
+        padding: 14px;
+        border-radius: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #0f172a;
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Hover states only apply to devices with a mouse cursor */
+      @media (hover: hover) {
+        .btn-primary:hover {
+          background: rgb(21, 169, 238);
+          transform: translateY(-2px);
+          box-shadow: 0 0px 20px -2px rgba(56, 189, 248, 0.4);
+        }
+
+        .btn-secondary:hover {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.2);
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Decorative Blobs to match the Contact page */
+      .blob {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: var(--accent);
+        filter: blur(100px);
+        z-index: -1;
+        border-radius: 50%;
+        opacity: 0.15;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blob" style="top: -10%; left: -5%"></div>
+    <div
+      class="blob"
+      style="bottom: -10%; right: -5%; background: #818cf8"
+    ></div>
+
+    <div class="card">
+      <h1>404</h1>
+      <h2>Signal Lost // Route Not Found</h2>
+
+      <p>
+        The page you are looking for has been moved to another dimension or
+        never existed in this timeline.
+      </p>
+
+      <div class="error-tag">ERROR_CODE: 0xNULL_POINTER</div>
+
+      <div class="btn-group">
+        <a href="/" class="btn btn-primary">Go Home</a>
+        <a href="javascript:history.back()" class="btn btn-secondary"
+          >Go Back</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us</title>
+    <script src="/public/js/copy.js" defer></script>
+    <link rel="stylesheet" href="/public/css/style.css" />
+
+    <!-- Prism.js for syntax highlighting -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/404">Page 404</a>
+    </nav>
+    <div class="card">
+      <img
+        src="/public/img3.jpg"
+        alt="Profile"
+        class="hero-img"
+        onerror="this.style.display = 'none'"
+      />
+      <h1>{{title}}</h1>
+      <div>{{content}}</div>
+    </div>
+
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+  </body>
+</html>

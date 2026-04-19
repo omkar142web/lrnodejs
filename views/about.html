@@ -3,35 +3,430 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Us</title>
-    <script src="/public/js/copy.js" defer></script>
-    <link rel="stylesheet" href="/public/css/style.css" />
-
-    <!-- Prism.js for syntax highlighting -->
+    <title>About // The Architect</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --accent: #38bdf8;
+        --accent-glow: rgba(56, 189, 248, 0.3);
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --border: rgba(255, 255, 255, 0.08);
+        --error-pink: #ff75a0;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: var(--bg);
+        background-image:
+          radial-gradient(
+            at 0% 0%,
+            rgba(56, 189, 248, 0.12) 0px,
+            transparent 55%
+          ),
+          radial-gradient(
+            at 100% 100%,
+            rgba(99, 102, 241, 0.12) 0px,
+            transparent 55%
+          );
+        color: var(--text);
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+
+      /* ─── HEADER / NAV ─── */
+      .main-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 0 clamp(1.5rem, 5vw, 4rem);
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .main-header nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1100px;
+        margin: 0 auto;
+        height: 64px;
+      }
+
+      .logo {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--accent);
+        text-shadow: 0 0 18px var(--accent-glow);
+      }
+
+      .main-header nav ul {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+      }
+
+      .main-header nav ul li a {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.25s ease;
+        position: relative;
+        padding-bottom: 4px;
+      }
+
+      .main-header nav ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1.5px;
+        background: var(--accent);
+        transition: width 0.3s ease;
+      }
+
+      .main-header nav ul li a:hover,
+      .main-header nav ul li a.active {
+        color: var(--text);
+      }
+
+      .main-header nav ul li a.active::after,
+      .main-header nav ul li a:hover::after {
+        width: 100%;
+      }
+
+      /* ─── CONTENT WRAPPER ─── */
+      .content-wrapper {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 5rem clamp(1.5rem, 5vw, 4rem);
+        display: flex;
+        flex-direction: column;
+        gap: 5rem;
+      }
+
+      /* ─── ABOUT BIO ─── */
+      .about-bio {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 3rem;
+        align-items: start;
+        animation: slideUp 0.7s ease-out both;
+      }
+
+      .bio-text h1 {
+        font-size: clamp(2rem, 4.5vw, 3.2rem);
+        font-weight: 800;
+        letter-spacing: -2px;
+        line-height: 1.1;
+        margin-bottom: 1.25rem;
+        background: linear-gradient(to bottom right, #f8fafc 30%, #64748b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .bio-text .lead {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+        line-height: 1.65;
+      }
+
+      .bio-text p {
+        font-size: 0.95rem;
+        color: var(--muted);
+        line-height: 1.85;
+        margin-bottom: 1.1rem;
+      }
+
+      .bio-text p em {
+        color: var(--text);
+        font-style: italic;
+      }
+
+      /* ─── STAT BOX ASIDE ─── */
+      .bio-stats {
+        position: sticky;
+        top: 88px; /* header height + gap */
+        animation: slideUp 0.7s ease-out 0.15s both;
+      }
+
+      .stat-box {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* accent corner glow */
+      .stat-box::before {
+        content: "";
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 120px;
+        height: 120px;
+        background: var(--accent);
+        filter: blur(60px);
+        opacity: 0.15;
+        pointer-events: none;
+      }
+
+      .stat-box h4 {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--accent);
+        margin-bottom: 1rem;
+      }
+
+      .stat-box p {
+        font-size: 0.88rem;
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      /* ─── ROADMAP ─── */
+      .learning-roadmap {
+        animation: slideUp 0.7s ease-out 0.2s both;
+      }
+
+      .learning-roadmap h2 {
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 2.5rem;
+        background: linear-gradient(to right, #f8fafc, #94a3b8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        padding-left: 1.25rem;
+      }
+
+      /* Decorative left accent bar */
+      .learning-roadmap h2::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 70%;
+        background: var(--accent);
+        border-radius: 2px;
+        box-shadow: 0 0 12px var(--accent-glow);
+      }
+
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        position: relative;
+      }
+
+      .milestone {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2rem;
+        transition:
+          transform 0.3s ease,
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
+        position: relative;
+      }
+
+      .milestone::after {
+        content: counter(milestone-counter, decimal-leading-zero);
+        counter-increment: milestone-counter;
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--accent);
+        opacity: 0.5;
+        letter-spacing: 1px;
+      }
+
+      .timeline {
+        counter-reset: milestone-counter;
+      }
+
+      @media (hover: hover) {
+        .milestone:hover {
+          transform: translateY(-4px);
+          border-color: rgba(56, 189, 248, 0.25);
+          box-shadow:
+            0 20px 40px -12px rgba(0, 0, 0, 0.5),
+            0 0 0 1px rgba(56, 189, 248, 0.1);
+        }
+      }
+
+      .milestone h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: -0.2px;
+        color: var(--text);
+        margin-bottom: 0.75rem;
+      }
+
+      .milestone p {
+        font-size: 0.875rem;
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      /* ─── FOOTER ─── */
+      .main-footer {
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        border-top: 1px solid var(--border);
+        margin-top: 2rem;
+      }
+
+      .main-footer p {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--muted);
+        letter-spacing: 1px;
+      }
+
+      /* ─── ANIMATION ─── */
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ─── RESPONSIVE ─── */
+      @media (max-width: 768px) {
+        .about-bio {
+          grid-template-columns: 1fr;
+        }
+
+        .bio-stats {
+          position: static;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .main-header nav ul {
+          gap: 1.25rem;
+        }
+      }
+
+      p {
+        word-spacing: 1.75px;
+      }
+    </style>
   </head>
   <body>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/about">About</a>
-      <a href="/404">Page 404</a>
-    </nav>
-    <div class="card">
-      <img
-        src="/public/img3.jpg"
-        alt="Profile"
-        class="hero-img"
-        onerror="this.style.display = 'none'"
-      />
-      <h1>{{title}}</h1>
-      <div>{{content}}</div>
-    </div>
+    <header class="main-header">
+      <nav>
+        <div class="logo">KNOWLEDGE_BASE</div>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about" class="active">About</a></li>
+        </ul>
+      </nav>
+    </header>
 
-    <!-- Prism.js for syntax highlighting -->
-    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+    <main class="content-wrapper">
+      <section class="about-bio">
+        <div class="bio-text">
+          <h1>The Story Behind the Code</h1>
+          <p class="lead">
+            I don't just write code; I document the "Why" behind the "How."
+          </p>
+
+          <p>
+            My journey started with a simple question:
+            <em>How does this work?</em> This curiosity turned into a passion
+            for e-learning and knowledge architecture. I believe that the best
+            way to master a language or a framework is to be able to explain it
+            to someone else—or to your future self.
+          </p>
+
+          <p>
+            This website serves as my external brain. It's where I deconstruct
+            complex systems, revise core computer science fundamentals, and
+            share the resources that helped me bridge the gap from beginner to
+            builder.
+          </p>
+        </div>
+
+        <aside class="bio-stats">
+          <div class="stat-box">
+            <h4>Learning Philosophy</h4>
+            <p>Feynman Technique, Active Recall, Project-Based Immersion.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="learning-roadmap">
+        <h2>The Roadmap</h2>
+        <div class="timeline">
+          <div class="milestone">
+            <h3>The Foundation</h3>
+            <p>
+              Understanding the logic of HTML, CSS, and Vanilla JavaScript.
+              Building the muscle memory of clean syntax.
+            </p>
+          </div>
+          <div class="milestone">
+            <h3>The Expansion</h3>
+            <p>
+              Moving into full-stack territory. Learning how data flows between
+              the client and the server.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="main-footer">
+      <p>Stay Curious. Keep Coding.</p>
+    </footer>
   </body>
 </html>
