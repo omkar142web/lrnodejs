@@ -513,6 +513,7 @@
         font-style: italic;
         border-top: 1px solid rgba(255, 255, 255, 0.05);
         padding-top: 1rem;
+        word-spacing: 2px;
       }
 
       /* Active States */
@@ -679,9 +680,9 @@
         max-width: 1100px;
         margin: 0 auto;
         padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 1rem;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 1.25rem;
+        display: block;
+        column-width: 320px;
+        column-gap: 1.25rem;
       }
 
       /* ── Project Card ── */
@@ -701,6 +702,8 @@
           box-shadow 0.3s ease;
         position: relative;
         overflow: hidden;
+        break-inside: avoid;
+        margin-bottom: 1.5rem;
         /* JS will set visibility for filtering */
       }
 
@@ -971,10 +974,10 @@
       }
 
       .closing-text p {
-        font-size: 1rem;
-        font-weight: 600;
+        /* font-size: 1.15rem; */
+        font-weight: 700;
+        line-height: 1.7;
         color: var(--text);
-        line-height: 1.6;
         letter-spacing: 0px;
         max-width: 500px;
       }
@@ -984,7 +987,7 @@
         font-style: italic;
         color: var(--muted);
         font-weight: 400;
-        margin-top: 0.5rem;
+        margin-top: 0.3rem;
       }
 
       .closing-cta {
@@ -1187,7 +1190,7 @@
           align-items: flex-start;
         }
         .projects-grid {
-          grid-template-columns: 1fr;
+          column-count: 1;
         }
       }
 
@@ -1220,6 +1223,7 @@
       .bg-red {
         display: inline-block;
         padding: 3px 9px;
+        font-family: "Plus Jakarta Sans", sans-serif; 
         border-radius: 6px;
         font-size: 0.6rem;
         text-transform: uppercase;
@@ -1229,6 +1233,14 @@
       .footer-link-wraper {
         display: flex;
         gap: 1rem;
+      }
+
+      em code {
+        margin-top: 0.6rem;
+      }
+
+      em code:last-child{
+        margin-left: 4px;
       }
     </style>
   </head>
@@ -1377,7 +1389,7 @@
             </div>
             <div class="panel-divider"></div>
             <div class="project-links">
-              <a href="#" class="proj-link github">
+              <a href="https://github.com/omkar142web/lrnodejs" target="_blank" class="proj-link github">
                 <svg
                   viewBox="0 0 16 16"
                   fill="currentColor"
@@ -1390,7 +1402,7 @@
                 </svg>
                 View on GitHub
               </a>
-              <a href="#" class="proj-link demo">
+              <a href="/" class="proj-link demo">
                 <svg
                   viewBox="0 0 16 16"
                   fill="none"
@@ -1763,13 +1775,11 @@
         <div class="closing-card reveal">
           <div class="closing-text">
             <span>// more experiments loading...</span>
-            <p>
-              Every project starts as confusion.<br />
+            <p>Every project starts as confusion.</p>
+            <p class="closing-sub">
               <em
                 ><code class="bg-red">If it wasn't hard</code> to build, I
-                <code class="bg-green" style="margin-left: 4px; margin-top: 6px"
-                  >probably didn't learn enough</code
-                >
+                <code class="bg-green">probably didn't learn enough</code>
                 from it.</em
               >
             </p>
