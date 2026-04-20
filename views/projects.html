@@ -1,0 +1,1868 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Builds // The Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ══════════════════════════════════════
+         TOKENS + RESET + BASE
+         ══════════════════════════════════════ */
+
+      :root {
+        --bg: #0f172a;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --accent: #38bdf8;
+        --accent-glow: rgba(56, 189, 248, 0.3);
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --border: rgba(255, 255, 255, 0.08);
+        --error-pink: #ff75a0;
+        --violet: #a78bfa;
+        --emerald: #34d399;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: var(--bg);
+        background-image:
+          radial-gradient(
+            at 0% 0%,
+            rgba(56, 189, 248, 0.12) 0px,
+            transparent 55%
+          ),
+          radial-gradient(
+            at 100% 100%,
+            rgba(99, 102, 241, 0.12) 0px,
+            transparent 55%
+          );
+        color: var(--text);
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+
+      p {
+        word-spacing: 1px;
+      }
+
+      body::-webkit-scrollbar {
+        width: 8px;
+      }
+      body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      body::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+      body::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes pulseRing {
+        0% {
+          box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4);
+        }
+        70% {
+          box-shadow: 0 0 0 8px rgba(56, 189, 248, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+        }
+      }
+
+      /* ══════════════════════════════════════
+         HEADER
+         ══════════════════════════════════════ */
+      .main-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 0 clamp(1.5rem, 5vw, 4rem);
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .main-header nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1100px;
+        margin: 0 auto;
+        height: 64px;
+      }
+
+      .logo {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--accent);
+        text-shadow: 0 0 18px var(--accent-glow);
+        cursor: pointer;
+        user-select: none;
+        text-decoration: none;
+      }
+
+      .main-header nav ul {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+      }
+
+      .main-header nav ul li a {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.25s ease;
+        position: relative;
+        padding-bottom: 4px;
+      }
+
+      .main-header nav ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1.5px;
+        background: var(--accent);
+        transition: width 0.3s ease;
+      }
+
+      .main-header nav ul li a:hover,
+      .main-header nav ul li a.active {
+        color: var(--text);
+      }
+
+      .main-header nav ul li a.active::after,
+      .main-header nav ul li a:hover::after {
+        width: 100%;
+      }
+
+      /* ══════════════════════════════════════
+         HERO
+         ══════════════════════════════════════ */
+      .projects-hero {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2.2rem clamp(1.5rem, 5vw, 4rem) 2.5rem;
+        animation: slideUp 0.7s ease-out both;
+      }
+
+      .projects-hero .eyebrow {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--accent);
+        letter-spacing: 2px;
+        opacity: 0.85;
+        margin-bottom: 1.25rem;
+        display: block;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .projects-hero h1 {
+        font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+        font-weight: 800;
+        letter-spacing: -2.5px;
+        line-height: 1.08;
+        margin-bottom: 1.25rem;
+        background: linear-gradient(
+          to right,
+          #f8fafc,
+          #94a3b8,
+          #38bdf8,
+          #f8fafc
+        );
+        background-size: 300% 100%;
+        animation: gradientShift 8s ease infinite;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .projects-hero p {
+        font-size: 1rem;
+        color: var(--muted);
+        max-width: 600px;
+        line-height: 1.85;
+      }
+
+      /* ── Stats Bar ── */
+      .stats-bar {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 clamp(1.5rem, 5vw, 4rem) 2rem;
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        animation: slideUp 0.7s ease-out 0.1s both;
+      }
+
+      .stat-pill {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.6rem 1.1rem;
+      }
+
+      .stat-pill .stat-num {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .stat-pill .stat-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* ══════════════════════════════════════
+         FILTER BAR
+         ══════════════════════════════════════ */
+      .filter-bar {
+        position: sticky;
+        top: 64px;
+        z-index: 90;
+        background: rgba(15, 23, 42, 0.85);
+        /* border-top: 1px solid rgba(56, 189, 248, 0.15); */
+        border-top: 1px solid var(--border);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+        padding: 0.85rem clamp(1.5rem, 5vw, 4rem);
+        /* ADD THIS */
+        isolation: isolate;
+      }
+
+      .filter-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+
+      .filter-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin-right: 0.4rem;
+      }
+
+      .filter-btn {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 5px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .filter-btn:hover {
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .filter-btn.active {
+        color: var(--bg);
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+
+      /* ══════════════════════════════════════
+         FEATURED PROJECT CARD
+         ══════════════════════════════════════ */
+      .featured-wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 0;
+      }
+
+      .featured-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 2.5px;
+        color: var(--error-pink);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .featured-label::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--error-pink);
+        display: inline-block;
+        animation: pulseRing 2s infinite;
+      }
+
+      .featured-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(56, 189, 248, 0.15);
+        border-radius: 24px;
+        padding: 2.5rem;
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: 2.5rem;
+        position: relative;
+        overflow: hidden;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .featured-card::before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 250px;
+        height: 250px;
+        background: var(--accent);
+        filter: blur(100px);
+        opacity: 0.15;
+        pointer-events: none;
+      }
+
+      .featured-card::after {
+        content: "FEATURED";
+        position: absolute;
+        top: 1.75rem;
+        right: 2rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 3px;
+        color: var(--error-pink);
+        opacity: 0.45;
+      }
+
+      @media (hover: hover) {
+        .featured-card:hover {
+          border-color: rgba(56, 189, 248, 0.3);
+          box-shadow:
+            0 25px 60px -15px rgba(0, 0, 0, 0.6),
+            0 0 0 1px rgba(56, 189, 248, 0.12);
+        }
+      }
+
+      .featured-main {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .featured-index {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--error-pink);
+        opacity: 0.6;
+        letter-spacing: 1px;
+      }
+
+      .featured-card h2 {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-weight: 800;
+        letter-spacing: -1px;
+        line-height: 1.15;
+        color: var(--text);
+      }
+
+      .featured-tagline {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--accent);
+        line-height: 1.5;
+      }
+
+      .featured-desc {
+        font-size: 0.9rem;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      /* --- Premium Note Styles --- */
+      .premium-note-container {
+        margin-top: 1rem;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.02);
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .note-trigger {
+        width: 100%;
+        padding: 0.8rem 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        outline: none;
+      }
+
+      .trigger-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 1.5px;
+        color: var(--violet);
+        font-weight: 700;
+      }
+
+      .trigger-icon {
+        width: 14px;
+        height: 14px;
+        color: var(--muted);
+        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      }
+
+      /* Expansion Logic */
+      .note-content {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease;
+        opacity: 0;
+      }
+
+      .note-content-inner {
+        padding: 0 1.2rem 1.2rem;
+        font-size: 0.82rem;
+        color: var(--muted);
+        line-height: 1.7;
+        font-style: italic;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 1rem;
+      }
+
+      /* Active States */
+      .premium-note-container.is-active {
+        background: rgba(167, 139, 250, 0.04);
+        border-color: rgba(167, 139, 250, 0.2);
+      }
+
+      .premium-note-container.is-active .trigger-icon {
+        transform: rotate(180deg);
+        color: var(--violet);
+      }
+
+      .premium-note-container.is-active .note-content {
+        opacity: 1;
+      }
+
+      /* Tech stack chips */
+      .tech-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.25rem;
+      }
+
+      .tech-chip {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.5px;
+        padding: 3px 10px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.03);
+        transition: all 0.2s ease;
+        cursor: default;
+      }
+      .tech-chip:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* Featured sidebar panel */
+      .featured-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        border-left: 1px solid var(--border);
+        padding-left: 2.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .panel-block {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+
+      .panel-key {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--muted);
+        opacity: 0.6;
+      }
+
+      .panel-val {
+        font-size: 0.85rem;
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .panel-val.live {
+        color: var(--emerald);
+      }
+      .panel-val.building {
+        color: var(--violet);
+      }
+      .panel-val.wip {
+        color: var(--error-pink);
+      }
+
+      .status-dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        margin-right: 0.4rem;
+        vertical-align: middle;
+      }
+
+      .dot-live {
+        background: var(--emerald);
+        box-shadow: 0 0 6px var(--emerald);
+      }
+      .dot-building {
+        background: var(--violet);
+      }
+      .dot-wip {
+        background: var(--error-pink);
+      }
+      .dot-archived {
+        background: var(--muted);
+      }
+
+      .panel-divider {
+        height: 1px;
+        background: var(--border);
+      }
+
+      /* Project links */
+      .project-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .proj-link {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--muted);
+        text-decoration: none;
+        padding: 0.6rem 0.9rem;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        transition: all 0.25s ease;
+        letter-spacing: 0.5px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .proj-link svg {
+        flex-shrink: 0;
+        opacity: 0.7;
+      }
+
+      @media (hover: hover) {
+        .proj-link:hover {
+          color: var(--text);
+          border-color: rgba(255, 255, 255, 0.18);
+          background: rgba(255, 255, 255, 0.06);
+          transform: translateX(2px);
+        }
+
+        .proj-link.github:hover {
+          color: var(--accent);
+          border-color: rgba(56, 189, 248, 0.25);
+        }
+        .proj-link.demo:hover {
+          color: var(--emerald);
+          border-color: rgba(52, 211, 153, 0.25);
+        }
+      }
+
+      /* ══════════════════════════════════════
+         PROJECTS GRID
+         ══════════════════════════════════════ */
+      .projects-grid {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.25rem;
+      }
+
+      /* ── Project Card ── */
+      .project-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+        transition:
+          transform 0.3s ease,
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        /* JS will set visibility for filtering */
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 80px;
+        height: 80px;
+        background: var(--accent);
+        filter: blur(50px);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+      }
+
+      .project-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        background: radial-gradient(
+          600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+          rgba(255, 255, 255, 0.06),
+          transparent 40%
+        );
+        pointer-events: none;
+      }
+
+      @media (hover: hover) {
+        .project-card:hover {
+          transform: translateY(-5px);
+          border-color: rgba(56, 189, 248, 0.3);
+          box-shadow:
+            0 20px 40px -12px rgba(0, 0, 0, 0.5),
+            0 0 20px 0 rgba(56, 189, 248, 0.1);
+        }
+
+        .project-card:hover::before {
+          opacity: 0.1;
+        }
+        .project-card:hover::after {
+          opacity: 1;
+        }
+      }
+
+      /* Card top row */
+      .card-top-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+
+      .card-index {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--error-pink);
+        opacity: 0.55;
+        letter-spacing: 1px;
+        margin-bottom: 0.35rem;
+        display: block;
+      }
+
+      .card-status {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        padding: 3px 9px;
+        border-radius: 6px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .status-live {
+        color: var(--emerald);
+        background: rgba(52, 211, 153, 0.12);
+        border: 1px solid rgba(52, 211, 153, 0.3);
+      }
+      .status-building {
+        color: var(--violet);
+        background: rgba(167, 139, 250, 0.12);
+        border: 1px solid rgba(167, 139, 250, 0.3);
+      }
+      .status-wip {
+        color: var(--error-pink);
+        background: rgba(255, 117, 160, 0.12);
+        border: 1px solid rgba(255, 117, 160, 0.3);
+      }
+      .status-archived {
+        color: var(--muted);
+        background: rgba(148, 163, 184, 0.12);
+        border: 1px solid rgba(148, 163, 184, 0.3);
+      }
+
+      .project-card h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--text);
+        line-height: 1.3;
+        letter-spacing: 0px;
+        word-spacing: 1px;
+      }
+
+      .card-tagline {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--accent);
+        line-height: 1.5;
+      }
+
+      .card-desc {
+        font-size: 0.845rem;
+        color: var(--muted);
+        line-height: 1.75;
+        flex-grow: 1;
+      }
+
+      /* Tech chips (smaller in grid cards) */
+      .card-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .card-tech .tech-chip {
+        font-size: 0.6rem;
+        padding: 2px 8px;
+      }
+
+      /* Card actions row */
+      .card-actions {
+        display: flex;
+        gap: 0.5rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--border);
+        flex-wrap: wrap;
+      }
+
+      .card-link {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.5px;
+        color: var(--muted);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 4px 10px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        background: transparent;
+        transition: all 0.2s ease;
+      }
+
+      .card-link svg {
+        width: 11px;
+        height: 11px;
+      }
+
+      @media (hover: hover) {
+        .card-link:hover {
+          color: var(--text);
+          border-color: rgba(255, 255, 255, 0.2);
+          background: rgba(255, 255, 255, 0.05);
+        }
+        .card-link.github:hover {
+          color: var(--accent);
+          border-color: rgba(56, 189, 248, 0.3);
+        }
+        .card-link.demo:hover {
+          color: var(--emerald);
+          border-color: rgba(52, 211, 153, 0.3);
+        }
+      }
+
+      /* Premium note inside grid card (compact) */
+      .card-honest .premium-note-container {
+        margin-top: 0.1rem;
+      }
+      .card-honest .note-trigger {
+        padding: 0.6rem 0.9rem;
+      }
+      .card-honest .trigger-label {
+        font-size: 0.58rem;
+      }
+      .card-honest .note-content-inner {
+        font-size: 0.78rem;
+        padding: 0.3rem 0.9rem 0.8rem;
+        word-spacing: 1px;
+      }
+
+      /* ── hidden card state for filtering ── */
+      .project-card.hidden {
+        display: none;
+      }
+
+      /* ══════════════════════════════════════
+         CLOSING
+         ══════════════════════════════════════ */
+      .projects-closing {
+        max-width: 1100px;
+        margin: 3rem auto 0;
+        padding: 0 clamp(1.5rem, 5vw, 4rem) 5rem;
+      }
+
+      .closing-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2.25rem 2.5rem;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .closing-card::before {
+        content: "";
+        position: absolute;
+        bottom: -60px;
+        right: -60px;
+        width: 220px;
+        height: 220px;
+        background: #6366f1;
+        filter: blur(90px);
+        opacity: 0.1;
+        pointer-events: none;
+      }
+
+      .closing-card::after {
+        content: "";
+        position: absolute;
+        top: -60px;
+        left: -60px;
+        width: 180px;
+        height: 180px;
+        background: var(--accent);
+        filter: blur(90px);
+        opacity: 0.07;
+        pointer-events: none;
+      }
+
+      .closing-text {
+        position: relative;
+        z-index: 1;
+      }
+
+      .closing-text span {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--accent);
+        display: block;
+        margin-bottom: 0.6rem;
+        opacity: 0.8;
+      }
+
+      .closing-text p {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.6;
+        letter-spacing: 0px;
+        max-width: 500px;
+      }
+
+      .closing-text p em {
+        display: inline-block;
+        font-style: italic;
+        color: var(--muted);
+        font-weight: 400;
+        margin-top: 0.5rem;
+      }
+
+      .closing-cta {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        flex-shrink: 0;
+        justify-content: center;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        padding: 12px 22px;
+        border-radius: 11px;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        letter-spacing: 1px;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #0f172a;
+      }
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      @media (hover: hover) {
+        .btn-primary:hover {
+          background: rgb(21, 169, 238);
+          transform: translateY(-2px);
+          box-shadow: 0 0 24px -4px rgba(56, 189, 248, 0.5);
+        }
+        .btn-secondary:hover {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.2);
+          transform: translateY(-2px);
+        }
+      }
+
+      /* ══════════════════════════════════════
+         FOOTER
+         ══════════════════════════════════════ */
+      .main-footer {
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        border-top: 1px solid var(--border);
+        margin-top: 2rem;
+      }
+
+      .main-footer p {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--muted);
+        letter-spacing: 1px;
+      }
+
+      .main-footer em,
+      .main-footer em a {
+        font-style: normal;
+        color: var(--error-pink);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .main-footer ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 1.2rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .main-footer ul li a {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        padding: 5px 10px;
+        border-radius: 4px;
+        border: 1px solid transparent;
+      }
+
+      .main-footer ul li a:hover,
+      .main-footer ul li a.active {
+        color: var(--accent);
+        background: rgba(56, 189, 248, 0.05);
+        border-color: rgba(56, 189, 248, 0.1);
+      }
+
+      @media (min-width: 512px) {
+        .main-footer ul li:not(:last-child)::after {
+          content: "•";
+          color: var(--border);
+          margin-left: 2rem;
+          font-size: 0.8rem;
+          pointer-events: none;
+        }
+      }
+
+      @media (max-width: 390px) {
+        .main-footer ul {
+          gap: 0.6rem;
+        }
+      }
+
+      /* ══════════════════════════════════════
+         REVEAL
+         ══════════════════════════════════════ */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px) scale(0.99);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      .projects-grid .project-card:nth-child(1) {
+        transition-delay: 0.05s;
+      }
+      .projects-grid .project-card:nth-child(2) {
+        transition-delay: 0.1s;
+      }
+      .projects-grid .project-card:nth-child(3) {
+        transition-delay: 0.15s;
+      }
+      .projects-grid .project-card:nth-child(4) {
+        transition-delay: 0.2s;
+      }
+      .projects-grid .project-card:nth-child(5) {
+        transition-delay: 0.25s;
+      }
+      .projects-grid .project-card:nth-child(6) {
+        transition-delay: 0.3s;
+      }
+
+      /* ══════════════════════════════════════
+         RESPONSIVE
+         ══════════════════════════════════════ */
+      @media (max-width: 900px) {
+        .featured-card {
+          grid-template-columns: 1fr;
+        }
+
+        .featured-panel {
+          border-left: none;
+          border-top: 1px solid var(--border);
+          padding-left: 0;
+          padding-top: 1.5rem;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 1.5rem;
+        }
+
+        .panel-block {
+          min-width: 120px;
+        }
+        .project-links {
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+        .panel-divider {
+          display: none;
+        }
+      }
+
+      @media (max-width: 710px) {
+        nav li:has(a[href="/stack"]) {
+          display: none;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .main-header nav ul {
+          gap: 1rem;
+        }
+        nav li:has(a[href="/learnings"]) {
+          display: none;
+        }
+        .stats-bar {
+          gap: 0.75rem;
+        }
+        .closing-card {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 600px) {
+        nav li:has(a[href="/projects"]) {
+          display: none;
+        }
+      }
+
+      .bg-green {
+        color: var(--emerald);
+        background: rgba(52, 211, 153, 0.12);
+        border: 1px solid rgba(52, 211, 153, 0.3);
+      }
+
+      .bg-violet {
+        color: var(--violet);
+        background: rgba(167, 139, 250, 0.12);
+        border: 1px solid rgba(167, 139, 250, 0.3);
+      }
+
+      .bg-red {
+        color: var(--error-pink);
+        background: rgba(255, 117, 160, 0.12);
+        border: 1px solid rgba(255, 117, 160, 0.3);
+      }
+
+      .bg-green,
+      .bg-violet,
+      .bg-red {
+        display: inline-block;
+        padding: 3px 9px;
+        border-radius: 6px;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="main-header">
+      <nav>
+        <div class="logo" onclick="window.location.href = '/'">
+          KNOWLEDGE_BASE
+        </div>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/stack">My Stack</a></li>
+          <li><a href="/learnings">Learnings</a></li>
+          <li><a href="/projects" class="active">Projects</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ── Hero ── -->
+      <section class="projects-hero">
+        <span class="eyebrow">// build.log — actively updated projects</span>
+        <h1>Things I Built<br />While Learning.</h1>
+        <p>
+          Every project here is a proof of understanding — not just code that
+          runs, but a concept I wrestled with, broke down, and rebuilt until it
+          made sense. These are experiments, not deliverables.
+        </p>
+      </section>
+
+      <!-- ── Stats Bar ── -->
+      <div class="stats-bar">
+        <div class="stat-pill">
+          <span class="stat-num" id="total-count">6</span>
+          <span class="stat-label">Total Builds</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num">2</span>
+          <span class="stat-label">Live</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num">3</span>
+          <span class="stat-label">In Progress</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num">4</span>
+          <span class="stat-label">Languages Used</span>
+        </div>
+      </div>
+
+      <!-- ── Filter Bar ── -->
+      <div class="filter-bar">
+        <div class="filter-inner">
+          <span class="filter-label">Filter</span>
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="live">Live</button>
+          <button class="filter-btn" data-filter="building">Building</button>
+          <button class="filter-btn" data-filter="wip">WIP</button>
+          <button class="filter-btn" data-filter="frontend">Frontend</button>
+          <button class="filter-btn" data-filter="backend">Backend</button>
+          <button class="filter-btn" data-filter="meta">Meta</button>
+        </div>
+      </div>
+
+      <!-- ── Featured Project ── -->
+      <div
+        class="featured-wrap reveal"
+        id="featured-project"
+        data-tags="live frontend"
+      >
+        <div class="featured-label">Featured Build</div>
+
+        <div class="featured-card">
+          <div class="featured-main">
+            <span class="featured-index">// 01</span>
+            <h2>This Website — KNOWLEDGE_BASE</h2>
+            <p class="featured-tagline">
+              A living system for learning in public — not a portfolio, a
+              process.
+            </p>
+            <p class="featured-desc">
+              Built from scratch using only HTML, CSS, and vanilla JavaScript.
+              No frameworks. No shortcuts. Every design decision was deliberate
+              — a way of proving I understand the foundations before reaching
+              for abstractions. The goal wasn't to ship a site; it was to
+              understand what a site actually is.
+            </p>
+
+            <div class="tech-stack">
+              <span class="tech-chip">HTML5</span>
+              <span class="tech-chip">CSS3</span>
+              <span class="tech-chip">Vanilla JS</span>
+              <span class="tech-chip">Google Fonts API</span>
+              <span class="tech-chip">CSS Custom Properties</span>
+              <span class="tech-chip">IntersectionObserver</span>
+            </div>
+
+            <div class="premium-note-container">
+              <button class="note-trigger" onclick="toggleNote(this)">
+                <span class="trigger-label">// HONEST NOTES</span>
+                <svg
+                  class="trigger-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="note-content">
+                <div class="note-content-inner">
+                  Mobile overflow from absolutely-positioned blobs took an
+                  embarrassingly long time to fix. Learnt that
+                  <code>overflow: hidden</code> on <code>body</code> alone
+                  doesn't clip on mobile WebKit — you need it on
+                  <code>html</code> too. Also: <code>100dvh</code> vs
+                  <code>100vh</code> matters more than I expected on iOS Safari.
+                  Everything took 3× longer than planned. That's the point.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar panel -->
+          <div class="featured-panel">
+            <div class="panel-block">
+              <span class="panel-key">Status</span>
+              <span class="panel-val live">
+                <span class="status-dot dot-live"></span>Live & Evolving
+              </span>
+            </div>
+            <div class="panel-block">
+              <span class="panel-key">Started</span>
+              <span class="panel-val">April 2026</span>
+            </div>
+            <div class="panel-block">
+              <span class="panel-key">Category</span>
+              <span class="panel-val">Frontend / Meta</span>
+            </div>
+            <div class="panel-block">
+              <span class="panel-key">Complexity</span>
+              <span class="panel-val">★★★☆☆</span>
+            </div>
+            <div class="panel-divider"></div>
+            <div class="project-links">
+              <a href="#" class="proj-link github">
+                <svg
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  width="14"
+                  height="14"
+                >
+                  <path
+                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                  />
+                </svg>
+                View on GitHub
+              </a>
+              <a href="#" class="proj-link demo">
+                <svg
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  width="14"
+                  height="14"
+                >
+                  <path
+                    d="M6 2H2.5A1.5 1.5 0 001 3.5v10A1.5 1.5 0 002.5 15h10a1.5 1.5 0 001.5-1.5V10M10 1h5m0 0v5m0-5L7 9"
+                  />
+                </svg>
+                Live Demo
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+           PROJECTS GRID
+           ══════════════════════════════════ -->
+      <div class="projects-grid">
+        <!-- Card 1 -->
+        <article class="project-card reveal" data-tags="live frontend">
+          <div>
+            <span class="card-index">// 02</span>
+            <div class="card-top-row">
+              <h3>404 Error Page</h3>
+              <span class="card-status status-live">
+                <span class="status-dot dot-live"></span>Live
+              </span>
+            </div>
+          </div>
+          <p class="card-tagline">
+            A custom error page that feels intentional, not broken.
+          </p>
+          <p class="card-desc">
+            Turned a dead-end into a design exercise. Explored glassmorphism,
+            pseudo-element blobs, and what it means to make even an error feel
+            like part of a coherent system.
+          </p>
+          <div class="card-tech">
+            <span class="tech-chip">HTML</span>
+            <span class="tech-chip">CSS</span>
+            <span class="tech-chip">Glassmorphism</span>
+          </div>
+          <div class="card-honest">
+            <div class="premium-note-container">
+              <button class="note-trigger" onclick="toggleNote(this)">
+                <span class="trigger-label">// HONEST NOTES</span>
+                <svg
+                  class="trigger-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="note-content">
+                <div class="note-content-inner">
+                  Mobile blobs caused horizontal scroll for a full day. Fixed by
+                  clamping overflow on <code>html</code> not just
+                  <code>body</code>.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a href="#" class="card-link github">
+              <svg viewBox="0 0 16 16" fill="currentColor">
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              GitHub
+            </a>
+            <a href="404.html" class="card-link demo">
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path
+                  d="M6 2H2.5A1.5 1.5 0 001 3.5v10A1.5 1.5 0 002.5 15h10a1.5 1.5 0 001.5-1.5V10M10 1h5m0 0v5m0-5L7 9"
+                />
+              </svg>
+              Live
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="project-card reveal" data-tags="building backend">
+          <div>
+            <span class="card-index">// 03</span>
+            <div class="card-top-row">
+              <h3>Node.js Request Logger</h3>
+              <span class="card-status status-building">
+                <span class="status-dot dot-building"></span>Building
+              </span>
+            </div>
+          </div>
+          <p class="card-tagline">
+            Understanding the Event Loop by watching it breathe.
+          </p>
+          <p class="card-desc">
+            A minimal HTTP server with a custom middleware logger. Built not to
+            ship — but to see exactly how Node processes each incoming request
+            in sequence, and where async really lives.
+          </p>
+          <div class="card-tech">
+            <span class="tech-chip">Node.js</span>
+            <span class="tech-chip">HTTP module</span>
+            <span class="tech-chip">Middleware</span>
+            <span class="tech-chip">Async/Await</span>
+          </div>
+          <div class="card-honest">
+            <div class="premium-note-container">
+              <button class="note-trigger" onclick="toggleNote(this)">
+                <span class="trigger-label">// HONEST NOTES</span>
+                <svg
+                  class="trigger-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="note-content">
+                <div class="note-content-inner">
+                  Still wrapping my head around the difference between I/O
+                  blocking and CPU blocking. Every time I think I get it, a new
+                  edge case appears. Documenting each one.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a href="#" class="card-link github">
+              <svg viewBox="0 0 16 16" fill="currentColor">
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="project-card reveal" data-tags="wip frontend meta">
+          <div>
+            <span class="card-index">// 04</span>
+            <div class="card-top-row">
+              <h3>CSS Animation Playground</h3>
+              <span class="card-status status-wip">
+                <span class="status-dot dot-wip"></span>WIP
+              </span>
+            </div>
+          </div>
+          <p class="card-tagline">
+            A living reference for every animation pattern I've understood.
+          </p>
+          <p class="card-desc">
+            Each animation in here is one I've deconstructed property by
+            property. Not copied — rebuilt from understanding. When I can
+            recreate it from memory, it goes in here.
+          </p>
+          <div class="card-tech">
+            <span class="tech-chip">CSS</span>
+            <span class="tech-chip">@keyframes</span>
+            <span class="tech-chip">CSS Variables</span>
+            <span class="tech-chip">transitions</span>
+          </div>
+          <div class="card-honest">
+            <div class="premium-note-container">
+              <button class="note-trigger" onclick="toggleNote(this)">
+                <span class="trigger-label">// HONEST NOTES</span>
+                <svg
+                  class="trigger-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="note-content">
+                <div class="note-content-inner">
+                  <code>animation-fill-mode: both</code> saved me dozens of
+                  times before I finally understood why. The "both" value
+                  applies forwards AND backwards — obvious in retrospect,
+                  confusing before you hit the edge case.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a href="#" class="card-link github">
+              <svg viewBox="0 0 16 16" fill="currentColor">
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              GitHub
+            </a>
+            <a href="#" class="card-link demo">
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path
+                  d="M6 2H2.5A1.5 1.5 0 001 3.5v10A1.5 1.5 0 002.5 15h10a1.5 1.5 0 001.5-1.5V10M10 1h5m0 0v5m0-5L7 9"
+                />
+              </svg>
+              Preview
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="project-card reveal" data-tags="building backend">
+          <div>
+            <span class="card-index">// 05</span>
+            <div class="card-top-row">
+              <h3>REST API — Notes Engine</h3>
+              <span class="card-status status-building">
+                <span class="status-dot dot-building"></span>Building
+              </span>
+            </div>
+          </div>
+          <p class="card-tagline">
+            CRUD before frameworks. Understanding the plumbing first.
+          </p>
+          <p class="card-desc">
+            A raw REST API with zero dependencies. Built to understand what
+            Express abstracts away — routing, request parsing, response headers,
+            status codes — all written by hand.
+          </p>
+          <div class="card-tech">
+            <span class="tech-chip">Node.js</span>
+            <span class="tech-chip">HTTP</span>
+            <span class="tech-chip">JSON</span>
+            <span class="tech-chip">REST</span>
+            <span class="tech-chip">fs module</span>
+          </div>
+          <div class="card-honest">
+            <div class="premium-note-container">
+              <button class="note-trigger" onclick="toggleNote(this)">
+                <span class="trigger-label">// HONEST NOTES</span>
+                <svg
+                  class="trigger-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="note-content">
+                <div class="note-content-inner">
+                  Parsing <code>req.body</code> without Express taught me what
+                  streams actually are. Data arrives in chunks — not all at
+                  once. That single realisation changed how I think about every
+                  network request.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a href="#" class="card-link github">
+              <svg viewBox="0 0 16 16" fill="currentColor">
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="project-card reveal" data-tags="wip meta">
+          <div>
+            <span class="card-index">// 06</span>
+            <div class="card-top-row">
+              <h3>JS Fundamentals Flashcard Engine</h3>
+              <span class="card-status status-wip">
+                <span class="status-dot dot-wip"></span>WIP
+              </span>
+            </div>
+          </div>
+          <p class="card-tagline">
+            Active recall, built with the thing I'm trying to recall.
+          </p>
+          <p class="card-desc">
+            A flashcard app built in vanilla JS — no libraries — where every
+            card is a concept I've personally struggled with. The act of
+            building the tool reinforces the concepts it tests.
+          </p>
+          <div class="card-tech">
+            <span class="tech-chip">JavaScript</span>
+            <span class="tech-chip">DOM API</span>
+            <span class="tech-chip">localStorage</span>
+            <span class="tech-chip">CSS Flip Animation</span>
+          </div>
+          <div class="card-honest">
+            <div class="premium-note-container">
+              <button class="note-trigger" onclick="toggleNote(this)">
+                <span class="trigger-label">// HONEST NOTES</span>
+                <svg
+                  class="trigger-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="note-content">
+                <div class="note-content-inner">
+                  <code>localStorage</code> serialises everything as strings — I
+                  lost a full session of card state before realising I needed
+                  <code>JSON.parse</code> on every read. A stupid bug with a
+                  valuable lesson about data types at the boundary.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a href="#" class="card-link github">
+              <svg viewBox="0 0 16 16" fill="currentColor">
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              GitHub
+            </a>
+            <a href="#" class="card-link demo">
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path
+                  d="M6 2H2.5A1.5 1.5 0 001 3.5v10A1.5 1.5 0 002.5 15h10a1.5 1.5 0 001.5-1.5V10M10 1h5m0 0v5m0-5L7 9"
+                />
+              </svg>
+              Preview
+            </a>
+          </div>
+        </article>
+      </div>
+      <!-- end .projects-grid -->
+
+      <!-- ── Closing ── -->
+      <div class="projects-closing">
+        <div class="closing-card reveal">
+          <div class="closing-text">
+            <span>// more experiments loading...</span>
+            <p>
+              Every project starts as confusion.<br />
+              <em
+                ><code class="bg-red">If it wasn't hard</code> to build, I <code class="bg-green"style="
+    margin-left: 4px; margin-top:6px">probably didn't learn enough</code> from
+                it.</em
+              >
+            </p>
+          </div>
+          <div class="closing-cta">
+            <a href="https://github.com" target="_blank" class="btn-primary"
+              >GitHub Profile →</a
+            >
+            <a href="/learnings" class="btn-secondary">My Notes</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="main-footer">
+      <p>
+        &copy; 2026 — A system by
+        <em
+          ><a
+            href="https://www.instagram.com/quietuntold?igsh=MWlzeGpyeGliNDl4dQ=="
+            target="_blank"
+            >Omkar</a
+          ></em
+        >
+        of thoughts, experiments, and evolving understanding.
+      </p>
+
+      <ul class="reveal">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/stack">My Stack</a></li>
+        <li><a href="/learnings">Learnings</a></li>
+        <li><a href="/projects" class="active">Projects</a></li>
+      </ul>
+    </footer>
+
+    <script>
+      /* ── Scroll Reveal ── */
+      const observer = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("active");
+          }),
+        { threshold: 0.06 },
+      );
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => observer.observe(el));
+
+      /* ── Spotlight Hover Effect ── */
+      document.querySelectorAll(".project-card").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty("--mouse-x", `${x}px`);
+          card.style.setProperty("--mouse-y", `${y}px`);
+        });
+      });
+
+      /* ── Filter Logic ── */
+      const filterBtns = document.querySelectorAll(".filter-btn");
+      const allCards = document.querySelectorAll(
+        ".project-card, #featured-project",
+      );
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          filterBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          const filter = btn.dataset.filter;
+          let visible = 0;
+
+          allCards.forEach((card) => {
+            const tags = card.dataset.tags || "";
+            const show = filter === "all" || tags.includes(filter);
+            card.classList.toggle("hidden", !show);
+            if (show) visible++;
+          });
+
+          document.getElementById("total-count").textContent = visible;
+        });
+      });
+      function toggleNote(btn) {
+        const container = btn.closest(".premium-note-container");
+        const content = container.querySelector(".note-content");
+        const isActive = container.classList.contains("is-active");
+
+        if (!isActive) {
+          container.classList.add("is-active");
+          content.style.maxHeight = content.scrollHeight + "px";
+        } else {
+          container.classList.remove("is-active");
+          content.style.maxHeight = null;
+        }
+      }
+    </script>
+  </body>
+</html>
