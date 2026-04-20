@@ -205,18 +205,6 @@
         display: block;
       }
 
-      @keyframes gradientShift {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-
       .projects-hero h1 {
         font-size: clamp(2.2rem, 5.5vw, 3.8rem);
         font-weight: 800;
@@ -225,16 +213,27 @@
         margin-bottom: 1.25rem;
         background: linear-gradient(
           to right,
-          #f8fafc,
-          #94a3b8,
-          #38bdf8,
-          #f8fafc
+          #38bdf8 0%,
+          #94a3b8 25%,
+          #f8fafc 50%,
+          #38bdf8 75%,
+          #38bdf8 100%
         );
-        background-size: 300% 100%;
-        animation: gradientShift 8s ease infinite;
+        /* 200% size is the magic number for infinite seamless loops */
+        background-size: 200% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        animation: infiniteSweep 6s linear infinite;
+      }
+
+      @keyframes infiniteSweep {
+        0% {
+          background-position: 0% center;
+        }
+        100% {
+          background-position: -200% center; /* Slides exactly one full cycle */
+        }
       }
 
       .projects-hero p {
@@ -1062,10 +1061,14 @@
       .main-footer ul {
         list-style: none;
         display: flex;
-        justify-content: center;
         gap: 1.2rem;
-        margin-top: 2rem;
+        margin-top: 3rem;
+        margin-bottom: 0.5rem;
         flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
       }
 
       .main-footer ul li a {
@@ -1088,7 +1091,7 @@
         border-color: rgba(56, 189, 248, 0.1);
       }
 
-      @media (min-width: 512px) {
+      /* @media (min-width: 512px) {
         .main-footer ul li:not(:last-child)::after {
           content: "•";
           color: var(--border);
@@ -1096,13 +1099,7 @@
           font-size: 0.8rem;
           pointer-events: none;
         }
-      }
-
-      @media (max-width: 390px) {
-        .main-footer ul {
-          gap: 0.6rem;
-        }
-      }
+      } */
 
       /* ══════════════════════════════════════
          REVEAL
@@ -1227,6 +1224,11 @@
         font-size: 0.6rem;
         text-transform: uppercase;
         letter-spacing: 1px;
+      }
+
+      .footer-link-wraper {
+        display: flex;
+        gap: 1rem;
       }
     </style>
   </head>
@@ -1764,9 +1766,11 @@
             <p>
               Every project starts as confusion.<br />
               <em
-                ><code class="bg-red">If it wasn't hard</code> to build, I <code class="bg-green"style="
-    margin-left: 4px; margin-top:6px">probably didn't learn enough</code> from
-                it.</em
+                ><code class="bg-red">If it wasn't hard</code> to build, I
+                <code class="bg-green" style="margin-left: 4px; margin-top: 6px"
+                  >probably didn't learn enough</code
+                >
+                from it.</em
               >
             </p>
           </div>
@@ -1794,11 +1798,15 @@
       </p>
 
       <ul class="reveal">
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/stack">My Stack</a></li>
-        <li><a href="/learnings">Learnings</a></li>
-        <li><a href="/projects" class="active">Projects</a></li>
+        <div class="footer-link-wraper">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+        </div>
+        <div class="footer-link-wraper">
+          <li><a href="/learnings">Learnings</a></li>
+          <li><a href="/stack">Stack</a></li>
+          <li><a href="/projects" class="active">Projects</a></li>
+        </div>
       </ul>
     </footer>
 
