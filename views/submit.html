@@ -96,8 +96,9 @@
       }
       .value {
         color: #e2e8f0;
-        word-break: break-all;
+        word-break: break-word;
         line-height: 1.5;
+        word-spacing: 2px;
       }
 
       .btn {
@@ -179,11 +180,28 @@
         justify-content: center;
         margin-top: 1rem;
       }
+
+      .img-circle {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+      }
+
+      .img-circle img {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        object-position: 0% 0%;
+        border: 2px solid #0f172a;
+        overflow: hidden;
+        box-shadow: 0 0 24px 18px rgba(0, 0, 0, 0.1);
+      }
     </style>
   </head>
   <body>
     <div class="card">
-      <div class="icon-circle">
+      <!-- <div class="icon-circle">
         <svg
           fill="none"
           stroke="currentColor"
@@ -197,6 +215,15 @@
             d="M5 13l4 4L19 7"
           ></path>
         </svg>
+      </div> -->
+
+      <div class="img-circle">
+        <img
+          src="{{imgLink}}"
+          alt=""
+          srcset=""
+          onerror="this.src = '{{fallbackImgLink}}'"
+        />
       </div>
 
       <h1>Success!</h1>

@@ -1,6 +1,8 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const { IdGeneratorForm } = require("./userform.js");
+
 const PORT = process.env.PORT || 3000;
 
 const routes = {
@@ -9,7 +11,7 @@ const routes = {
   "/stack": "views/stack.html",
   "/projects": "views/projects.html",
   "/login": "views/login.html",
-  "/projects/login": "views/loginOld.html",
+  "/projects/login": "views/loginSimple.html",
   "/projects/submit": "views/submit.html",
   "/public/css/style.css": "public/css/style.css",
 };
@@ -24,17 +26,23 @@ const mimeTypes = {
 };
 
 const server = http.createServer((req, res) => {
+  if (req.method == "POST") {
+    if (req.url == "/projects/submit") {
+      return IdGeneratorForm(req, res);
+    }
+  }
+
   const filePath = routes[req.url];
   console.log(filePath);
-  const extname = path.extname(`${filePath}`);
-  const contentType = mimeTypes[extname] || "text/plain";
-
-  res.setHeader("content-type", contentType);
-  res.statusCode = 200;
 
   // console.log(req.url, extname, contentType);
 
   if (filePath) {
+    const extname = path.extname(`${filePath}`);
+    const contentType = mimeTypes[extname] || "text/plain";
+
+    res.setHeader("content-type", contentType);
+    res.statusCode = 200;
     sendfile(res, filePath);
   } else {
     routeError(res);
