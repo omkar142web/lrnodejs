@@ -287,13 +287,11 @@
         top: 64px;
         z-index: 90;
         background: rgba(15, 23, 42, 0.85);
-        /* border-top: 1px solid rgba(56, 189, 248, 0.15); */
         border-top: 1px solid var(--border);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         border-bottom: 1px solid var(--border);
         padding: 0.85rem clamp(1.5rem, 5vw, 4rem);
-        /* ADD THIS */
         isolation: isolate;
       }
 
@@ -304,7 +302,49 @@
         align-items: center;
         gap: 0.6rem;
         flex-wrap: wrap;
+        /* } */
+
+        /* @media (max-width: 650px) { */
+        /* .filter-inner { */
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -ms-overflow-style: none; /* IE/Edge */
+        scrollbar-width: none; /* Firefox */
+        padding-right: 3rem; /* padding to scroll past the gradient fade */
       }
+      .filter-inner::-webkit-scrollbar {
+        display: none;
+      }
+      .filter-btn,
+      .filter-label {
+        flex-shrink: 0;
+      }
+      .filter-bar::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 40px;
+        background: linear-gradient(
+          to right,
+          rgba(15, 23, 42, 0),
+          rgba(15, 23, 42, 1)
+        );
+        pointer-events: none;
+      }
+      /* .filter-bar::before{
+        font-family: "JetBrains Mono", monospace;
+        content: '>';
+        position: absolute;
+        top: 25%;
+        right: 20px;
+        width: 0;
+        pointer-events: none;
+        z-index: 9;
+      } */
+
+      /* } */
 
       .filter-label {
         font-family: "JetBrains Mono", monospace;
@@ -1192,9 +1232,7 @@
         .projects-grid {
           column-count: 1;
         }
-      }
 
-      @media (max-width: 600px) {
         nav li:has(a[href="/projects"]) {
           display: none;
         }
@@ -1223,7 +1261,7 @@
       .bg-red {
         display: inline-block;
         padding: 3px 9px;
-        font-family: "Plus Jakarta Sans", sans-serif; 
+        font-family: "Plus Jakarta Sans", sans-serif;
         border-radius: 6px;
         font-size: 0.6rem;
         text-transform: uppercase;
@@ -1239,7 +1277,7 @@
         margin-top: 0.6rem;
       }
 
-      em code:last-child{
+      em code:last-child {
         margin-left: 4px;
       }
     </style>
@@ -1389,7 +1427,11 @@
             </div>
             <div class="panel-divider"></div>
             <div class="project-links">
-              <a href="https://github.com/omkar142web/lrnodejs" target="_blank" class="proj-link github">
+              <a
+                href="https://github.com/omkar142web/lrnodejs"
+                target="_blank"
+                class="proj-link github"
+              >
                 <svg
                   viewBox="0 0 16 16"
                   fill="currentColor"
