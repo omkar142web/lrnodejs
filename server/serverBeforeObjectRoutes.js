@@ -1,39 +1,35 @@
 const http = require("http");
 const fs = require("fs");
-const path = require("path");
 const PORT = process.env.PORT || 3000;
 
-const routes = {
-  "/": "views/index.html",
-  "/about": "views/about.html",
-  "/stack": "views/stack.html",
-  "/projects": "views/projects.html",
-  "/login": "views/login.html",
-  "/public/css/style.css": "public/css/style.css",
-};
-
-const mimeTypes = {
-  ".html": "text/html",
-  ".css": "text/css",
-  ".js": "text/javascript",
-  ".png": "image/png",
-  ".jpg": "image/jpeg",
-  ".json": "application/json",
-};
-
 const server = http.createServer((req, res) => {
-  const filePath = routes[req.url];
-  console.log(filePath);
-  const extname = path.extname(`${filePath}`);
-  const contentType = mimeTypes[extname] || "text/plain";
-
-  res.setHeader("content-type", contentType);
+  res.setHeader("content-type", "text/html");
   res.statusCode = 200;
 
-  // console.log(req.url, extname, contentType);
+  if (req.url === "/") {
+    // fs.readFile("../views/form.html", "utf-8", (err, fileData) => {
+    //   if (err) {
+    //     fsError(res);
+    //     return;
+    //   }
+    //   res.end(fileData);
+    // });
 
-  if (filePath) {
-    sendfile(res, filePath);
+    sendfile(res, "views/index.html");
+
+    // ==========================================
+  } else if (req.url === "/about") {
+    sendfile(res, "views/about.html");
+
+    // ==========================================
+  } else if (req.url === "/stack") {
+    sendfile(res, "views/stack.html");
+
+    // ==========================================
+  } else if (req.url === "/projects") {
+    sendfile(res, "views/projects.html");
+
+    // ==========================================
   } else {
     routeError(res);
   }
