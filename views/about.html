@@ -296,7 +296,7 @@
         color: var(--error-pink);
       }
 
-      .milestone::after {
+      .milestone::before {
         content: "";
         position: absolute;
         top: 150px;
@@ -397,20 +397,28 @@
         }
       }
 
+      @media (max-width: 710px) {
+        nav li:nth-child(3) {
+          display: none;
+        }
+      }
+
       @media (max-width: 600px) {
         .main-header nav ul {
           gap: 1.25rem;
         }
 
         .milestone h3 {
-          color: var(--accent) ;
+          color: var(--accent);
+        }
+
+        nav li:nth-child(4) {
+          display: none;
         }
       }
 
-      @media (max-width: 690px) {
-        nav li:has(a[href="/learnings"]),
-        nav li:has(a[href="/stack"]),
-        nav li:has(a[href="/projects"]) {
+      @media (max-width: 450px) {
+        nav li:nth-child(5) {
           display: none;
         }
       }
@@ -506,9 +514,9 @@
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/about" class="active">About</a></li>
-          <li><a href="/projects">Projects</a></li>
           <li><a href="/stack">My Stack</a></li>
           <li><a href="/learnings">Learnings</a></li>
+          <li><a href="/projects">Projects</a></li>
         </ul>
       </nav>
     </header>
@@ -614,7 +622,7 @@
       <p class="reveal-deep">
         ❤️ You !
         <i
-          >// (Just a reminder to myself… until you’re not a Golu 😙) [ ha ha
+          >// (That's a reminder to myself.. until you’re not a Golu 😙) [ ha ha
           thiky sorry 😏 ]
         </i>
       </p>

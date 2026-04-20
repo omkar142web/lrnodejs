@@ -429,21 +429,42 @@
       }
 
       /* ─── RESPONSIVE ─── */
+      @media (max-width: 710px) {
+        nav li:nth-child(3) {
+          display: none;
+        }
+      }
+
+      @media (max-width: 650px) {
+        .cta-buttons {
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
       @media (max-width: 600px) {
         .main-header nav ul {
           gap: 1.25rem;
         }
+
+        nav li:nth-child(4) {
+          display: none;
+        }
+      }
+
+      @media (max-width: 450px) {
         .cta-buttons {
           flex-direction: column;
+          align-items: normal;
         }
+
         .btn-primary,
         .btn-secondary {
           text-align: center;
         }
 
-        nav li:has(a[href="/learnings"]),
-        nav li:has(a[href="/stack"]),
-        nav li:has(a[href="/projects"]) {
+        nav li:nth-child(5) {
           display: none;
         }
       }
@@ -556,9 +577,9 @@
         <ul>
           <li><a href="/" class="active">Home</a></li>
           <li><a href="/about">About</a></li>
-          <li><a href="/projects">Projects</a></li>
           <li><a href="/stack">My Stack</a></li>
           <li><a href="/learnings">Learnings</a></li>
+          <li><a href="/projects">Projects</a></li>
         </ul>
       </nav>
     </header>
@@ -568,11 +589,10 @@
         <div class="hero-content">
           <h1>Learning in Public. Thinking in Systems.</h1>
           <p>
-            Welcome to my digital garden. It's a
-            repository of every concept I've mastered, every bug I've fought,
-            and the documentation of my evolution as a developer. Every concept
-            here is something I’ve questioned, struggled with, and finally
-            understood.
+            Welcome to my digital garden. It's a repository of every concept
+            I've mastered, every bug I've fought, and the documentation of my
+            evolution as a developer. Every concept here is something I’ve
+            questioned, struggled with, and finally understood.
           </p>
           <div class="cta-buttons">
             <a href="#learnings" class="btn-primary">Explore My Thinking</a>
