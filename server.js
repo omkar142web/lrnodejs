@@ -9,6 +9,8 @@ const routes = {
   "/stack": "views/stack.html",
   "/projects": "views/projects.html",
   "/login": "views/login.html",
+  "/projects/login": "views/loginOld.html",
+  "/projects/submit": "views/submit.html",
   "/public/css/style.css": "public/css/style.css",
 };
 
