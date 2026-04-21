@@ -14,6 +14,7 @@ const routes = {
   "/projects/login": "views/loginSimple.html",
   "/projects/submit": "views/submit.html",
   "/public/css/style.css": "public/css/style.css",
+  "/users": "views/users.html",
 };
 
 const mimeTypes = {

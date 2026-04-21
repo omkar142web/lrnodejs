@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community // Knowledge Base</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ══════════════════════════════════════
+         TOKENS + RESET + BASE
+         ══════════════════════════════════════ */
+      :root {
+        --bg: #0f172a;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --accent: #38bdf8;
+        --accent-glow: rgba(56, 189, 248, 0.3);
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --border: rgba(255, 255, 255, 0.08);
+        --error-pink: #ff75a0;
+        --violet: #a78bfa;
+        --emerald: #34d399;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: var(--bg);
+        background-image:
+          radial-gradient(
+            at 0% 0%,
+            rgba(56, 189, 248, 0.12) 0px,
+            transparent 55%
+          ),
+          radial-gradient(
+            at 100% 100%,
+            rgba(99, 102, 241, 0.12) 0px,
+            transparent 55%
+          );
+        color: var(--text);
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+
+      p {
+        word-spacing: 1px;
+      }
+
+      body::-webkit-scrollbar {
+        width: 8px;
+      }
+      body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      body::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+      body::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes infiniteSweep {
+        0% {
+          background-position: 0% center;
+        }
+        100% {
+          background-position: -200% center;
+        }
+      }
+
+      /* ══════════════════════════════════════
+         HEADER
+         ══════════════════════════════════════ */
+      .main-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 0 clamp(1.5rem, 5vw, 4rem);
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .main-header nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1100px;
+        margin: 0 auto;
+        height: 64px;
+      }
+
+      .logo {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--accent);
+        text-shadow: 0 0 18px var(--accent-glow);
+        cursor: pointer;
+        user-select: none;
+        text-decoration: none;
+      }
+
+      .main-header nav ul {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+      }
+
+      .main-header nav ul li a {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.25s ease;
+        position: relative;
+        padding-bottom: 4px;
+      }
+
+      .main-header nav ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1.5px;
+        background: var(--accent);
+        transition: width 0.3s ease;
+      }
+
+      .main-header nav ul li a:hover,
+      .main-header nav ul li a.active {
+        color: var(--text);
+      }
+
+      .main-header nav ul li a.active::after,
+      .main-header nav ul li a:hover::after {
+        width: 100%;
+      }
+
+      /* ══════════════════════════════════════
+         HERO
+         ══════════════════════════════════════ */
+      .users-hero {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2.2rem clamp(1.5rem, 5vw, 4rem) 2.5rem;
+        animation: slideUp 0.7s ease-out both;
+      }
+
+      .users-hero .eyebrow {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--accent);
+        letter-spacing: 2px;
+        opacity: 0.85;
+        margin-bottom: 1.25rem;
+        display: block;
+      }
+
+      .users-hero h1 {
+        font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+        font-weight: 800;
+        letter-spacing: -2.5px;
+        line-height: 1.08;
+        margin-bottom: 1.25rem;
+        background: linear-gradient(
+          to right,
+          #38bdf8 0%,
+          #94a3b8 25%,
+          #f8fafc 50%,
+          #38bdf8 75%,
+          #38bdf8 100%
+        );
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: infiniteSweep 6s linear infinite;
+      }
+
+      .users-hero p {
+        font-size: 1rem;
+        color: var(--muted);
+        max-width: 600px;
+        line-height: 1.85;
+      }
+
+      /* ══════════════════════════════════════
+         USERS GRID & CARDS
+         ══════════════════════════════════════ */
+      .users-grid {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 1.5rem clamp(1.5rem, 5vw, 4rem) 4rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .user-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+        transition:
+          transform 0.3s ease,
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .user-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: var(--accent);
+        filter: blur(60px);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+      }
+
+      @media (hover: hover) {
+        .user-card:hover {
+          transform: translateY(-5px);
+          border-color: rgba(56, 189, 248, 0.3);
+          box-shadow:
+            0 20px 40px -12px rgba(0, 0, 0, 0.5),
+            0 0 20px 0 rgba(56, 189, 248, 0.1);
+        }
+        .user-card:hover::before {
+          opacity: 0.12;
+        }
+      }
+
+      .user-card-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .user-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        object-fit: cover;
+      }
+
+      .user-info-top {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+
+      .user-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        letter-spacing: -0.3px;
+      }
+
+      .verified-badge {
+        color: var(--accent);
+        background: rgba(56, 189, 248, 0.1);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+      }
+
+      .verified-badge svg {
+        width: 10px;
+        height: 10px;
+      }
+
+      .user-username {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--accent);
+        opacity: 0.8;
+      }
+
+      .user-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .user-role {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--emerald);
+      }
+
+      .user-company {
+        color: var(--muted);
+        font-weight: 400;
+      }
+
+      .user-location {
+        font-size: 0.75rem;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .user-location svg {
+        width: 12px;
+        height: 12px;
+        opacity: 0.7;
+      }
+
+      .user-bio {
+        font-size: 0.85rem;
+        color: var(--muted);
+        line-height: 1.6;
+        flex-grow: 1;
+      }
+
+      .user-skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .tech-chip {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.5px;
+        padding: 4px 10px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.03);
+        transition: all 0.2s ease;
+      }
+
+      .tech-chip:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .user-stats {
+        display: flex;
+        gap: 1.5rem;
+        padding-top: 0.85rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .stat {
+        display: flex;
+        align-items: baseline;
+        gap: 0.4rem;
+      }
+
+      .stat-val {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 0.95rem;
+      }
+
+      .stat-key {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        color: var(--muted);
+        letter-spacing: 0.5px;
+      }
+
+      .user-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+
+      .social-btn {
+        flex: 1;
+        text-align: center;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--muted);
+        text-decoration: none;
+        padding: 0.6rem;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.02);
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+      }
+
+      .social-btn svg {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
+      }
+
+      @media (hover: hover) {
+        .social-btn:hover {
+          color: var(--text);
+          border-color: rgba(255, 255, 255, 0.2);
+          background: rgba(255, 255, 255, 0.06);
+        }
+      }
+
+      /* ══════════════════════════════════════
+         FOOTER
+         ══════════════════════════════════════ */
+      .main-footer {
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        border-top: 1px solid var(--border);
+        margin-top: 2rem;
+      }
+
+      .main-footer p {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--muted);
+        letter-spacing: 1px;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.5s ease;
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Responsive Nav */
+      @media (max-width: 700px) {
+        .main-header nav ul {
+          gap: 1.25rem;
+        }
+        nav li:nth-child(3),
+        nav li:nth-child(4),
+        nav li:nth-child(5) {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="main-header">
+      <nav>
+        <a href="/" class="logo">KNOWLEDGE_BASE</a>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/stack">My Stack</a></li>
+          <li><a href="/learning">Learning</a></li>
+          <li><a href="/users" class="active">Community</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="users-hero">
+        <span class="eyebrow">// THE_NETWORK v1.0</span>
+        <h1>Community &amp; <br />Collaborators</h1>
+        <p>
+          Discover the developers, designers, and creators who are part of this
+          ecosystem. A network of continuous learners building in public.
+        </p>
+      </section>
+
+      <!-- 
+        ========================================================
+        Dynamic Data Integration Guide:
+        If you are rendering this from the backend (e.g. Node.js), 
+        wrap the <article class="user-card"> in your loop structure 
+        (like {{#each users}}) and replace the static content with 
+        variables like {{name}}, {{username}}, {{bio}}, etc.
+        ======================================================== 
+      -->
+      <section class="users-grid">
+        <article class="user-card reveal">
+          <div class="user-card-header">
+            <img src="{{userImage}}" alt="{{userName}}" class="user-avatar" />
+            <div class="user-info-top">
+              <h3 class="user-name">
+                {{userName}}
+                <span class="verified-badge" title="Verified">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </span>
+              </h3>
+              <p class="user-username">@{{userUsername}}</p>
+            </div>
+          </div>
+
+          <div class="user-meta">
+            <p class="user-role">
+              {{userRole}} <span class="user-company">@ {{userCompany}}</span>
+            </p>
+            <p class="user-location">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              {{userLocation}}
+            </p>
+            <p class="user-location">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                ></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              {{userEmail}}
+            </p>
+            <p class="user-location">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                ></path>
+              </svg>
+              {{userPhone}}
+            </p>
+          </div>
+
+          <p class="user-bio">{{userBio}}</p>
+
+          <div class="user-skills">
+            <span class="tech-chip">{{userSkills}}</span>
+          </div>
+
+          <div class="user-stats">
+            <div class="stat">
+              <span class="stat-val">{{userFollowers}}</span>
+              <span class="stat-key">Followers</span>
+            </div>
+            <div class="stat">
+              <span class="stat-val">{{userFollowing}}</span>
+              <span class="stat-key">Following</span>
+            </div>
+          </div>
+
+          <div class="user-actions">
+            <a href="{{userGithub}}" class="social-btn" target="_blank">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"
+                ></path>
+              </svg>
+              GitHub
+            </a>
+            <a href="{{userLinkedin}}" class="social-btn" target="_blank">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                ></path>
+              </svg>
+              LinkedIn
+            </a>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="main-footer">
+      <p>Stay Curious 🔬 • Keep Coding 💻</p>
+    </footer>
+
+    <script>
+      const elements = document.querySelectorAll(".reveal");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("active");
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      elements.forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>
