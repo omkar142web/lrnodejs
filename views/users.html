@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Community // Knowledge Base</title>
-    <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+    <script src="userhtml.js" defer></script>
 
     <style>
       /* ══════════════════════════════════════
@@ -508,7 +508,7 @@
           <li><a href="/about">About</a></li>
           <li><a href="/stack">My Stack</a></li>
           <li><a href="/learning">Learning</a></li>
-          <li><a href="/users" class="active">Community</a></li>
+          <li><a href="/users">Community</a></li>
         </ul>
       </nav>
     </header>
@@ -533,9 +533,14 @@
         ======================================================== 
       -->
       <section class="users-grid">
-        <article class="user-card reveal">
+        <!-- <article class="user-card reveal">
           <div class="user-card-header">
-            <img src="{{userImage}}" alt="{{userName}}" class="user-avatar" />
+            <img
+              src="{{userImage}}"
+              alt="{{userName}}"
+              onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{userName}}&background=0D8ABC&color=fff'"
+              class="user-avatar"
+            />
             <div class="user-info-top">
               <h3 class="user-name">
                 {{userName}}
@@ -645,7 +650,8 @@
               LinkedIn
             </a>
           </div>
-        </article>
+        </article> -->
+        <!-- CARDS_PLACEHOLDER -->
       </section>
     </main>
 

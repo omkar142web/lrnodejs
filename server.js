@@ -1,7 +1,9 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const { IdGeneratorForm } = require("./userform.js");
+const { IdGeneratorForm } = require("./public/js/userform.js");
+const { connectDB, getUsers } = require("./data/usersDB.js");
+const { datahandler } = require("./public/js/usersHTML.js");
 
 const PORT = process.env.PORT || 3000;
 
@@ -14,7 +16,6 @@ const routes = {
   "/projects/login": "views/loginSimple.html",
   "/projects/submit": "views/submit.html",
   "/public/css/style.css": "public/css/style.css",
-  "/users": "views/users.html",
 };
 
 const mimeTypes = {
@@ -26,12 +27,25 @@ const mimeTypes = {
   ".json": "application/json",
 };
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   if (req.method == "POST") {
     if (req.url == "/projects/submit") {
       return IdGeneratorForm(req, res);
     }
   }
+
+  // ===================================================
+  if (req.url === "/users" && req.method === "GET") {
+    try {
+      const data = await getUsers();
+      return datahandler(req, res, data);
+    } catch (err) {
+      res.statusCode = 500;
+      res.end("Error fetching users from database");
+      return;
+    }
+  }
+  // ===================================================
 
   const filePath = routes[req.url];
   console.log(filePath);
@@ -50,7 +64,9 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(PORT, startMsg);
+connectDB().then(() => {
+  server.listen(PORT, startMsg);
+});
 
 function startMsg() {
   console.log(`Server is running on http://localhost:${PORT}`);
