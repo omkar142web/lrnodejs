@@ -3,970 +3,422 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DevJournal // Create Identity</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>Create ID</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --bg: #0f172a;
-        --card-bg: rgba(30, 41, 59, 0.7);
-        --accent: #38bdf8;
-        --accent-glow: rgba(56, 189, 248, 0.3);
-        --text: #f8fafc;
-        --muted: #94a3b8;
-        --border: rgba(255, 255, 255, 0.08);
-        --input-bg: rgba(15, 23, 42, 0.6);
-        --error-pink: #ff75a0;
+        --bg: #05080f;
+        --surface: rgba(10, 18, 35, 0.85);
+        --border: rgba(99, 179, 237, 0.15);
+        --border-focus: rgba(99, 179, 237, 0.6);
+        --accent: #63b3ed;
+        --accent-bright: #90cdf4;
+        --accent-glow: rgba(99, 179, 237, 0.2);
+        --indigo: #818cf8;
+        --text: #e2e8f0;
+        --muted: #64748b;
+        --input-bg: rgba(5, 10, 20, 0.7);
       }
 
-      *,
-      *::before,
-      *::after {
+      * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
 
-      html,
       body {
-        height: 100%;
-        overflow: hidden;
-      }
-
-      body {
-        font-family: "Plus Jakarta Sans", sans-serif;
-        background-color: var(--bg);
+        font-family: "DM Sans", sans-serif;
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* overflow: hidden; */
+        position: relative;
+        padding: 5rem 0;
+        background-color: #0f172a;
         background-image:
           radial-gradient(
             at 0% 0%,
-            rgba(56, 189, 248, 0.12) 0px,
-            transparent 55%
+            rgba(56, 189, 248, 0.15) 0px,
+            transparent 50%
           ),
           radial-gradient(
             at 100% 100%,
-            rgba(99, 102, 241, 0.12) 0px,
-            transparent 55%
+            rgba(99, 102, 241, 0.15) 0px,
+            transparent 50%
           );
-        color: var(--text);
-        display: flex;
-        min-height: 100vh;
       }
 
-      /* ── LEFT PANEL ── */
-      .left-panel {
-        width: 42%;
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: clamp(2rem, 5vh, 3.5rem) clamp(2rem, 4vw, 3.5rem);
-        position: relative;
+      /* ── Background layers ── */
+      .bg-glow {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
         overflow: hidden;
-        border-right: 1px solid var(--border);
-      }
-
-      /* Decorative blobs */
-      .left-panel::before {
-        content: "";
-        position: absolute;
-        width: 350px;
-        height: 350px;
-        background: var(--accent);
-        opacity: 0.07;
-        filter: blur(90px);
-        border-radius: 50%;
-        top: -80px;
-        left: -80px;
         pointer-events: none;
       }
-      .left-panel::after {
+      .bg-glow::before {
         content: "";
         position: absolute;
-        width: 280px;
-        height: 280px;
-        background: #6366f1;
-        opacity: 0.09;
-        filter: blur(80px);
-        border-radius: 50%;
-        bottom: -60px;
-        right: -60px;
-        pointer-events: none;
-      }
-
-      /* Top: Logo */
-      .left-logo {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-      }
-      .logo-mark {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.82rem;
-        font-weight: 700;
-        letter-spacing: 2px;
-        color: var(--accent);
-        text-shadow: 0 0 18px var(--accent-glow);
-        text-decoration: none;
-      }
-      .logo-sub {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.64rem;
-        color: #334155;
-        letter-spacing: 1.5px;
-      }
-
-      /* Middle: Hero text + ID preview card */
-      .left-body {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-      }
-
-      .left-eyebrow {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.68rem;
-        color: var(--accent);
-        letter-spacing: 2px;
-        opacity: 0.85;
-        margin-bottom: 0.75rem;
-      }
-      .left-eyebrow::before {
-        content: "// ";
-      }
-
-      .left-title {
-        font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-        font-weight: 800;
-        letter-spacing: -1.5px;
-        line-height: 1.25;
-        background: linear-gradient(
-          to right,
-          #38bdf8 0%,
-          #94a3b8 30%,
-          #f8fafc 55%,
-          #38bdf8 80%,
-          #38bdf8 100%
+        width: 600px;
+        height: 600px;
+        top: -200px;
+        left: -150px;
+        background: radial-gradient(
+          circle,
+          rgba(99, 179, 237, 0.07) 0%,
+          transparent 70%
         );
-        background-size: 200% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: sweep 6s linear infinite;
+        border-radius: 50%;
+      }
+      .bg-glow::after {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        bottom: -150px;
+        right: -100px;
+        background: radial-gradient(
+          circle,
+          rgba(129, 140, 248, 0.08) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
       }
 
-      @keyframes sweep {
-        0% {
-          background-position: 0% center;
-        }
-        100% {
-          background-position: -200% center;
-        }
+      /* Dot grid texture */
+      .bg-dots {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-image: radial-gradient(
+          rgba(99, 179, 237, 0.08) 1px,
+          transparent 1px
+        );
+        background-size: 28px 28px;
+        pointer-events: none;
       }
 
-      .left-desc {
-        font-size: 0.875rem;
-        color: var(--muted);
-        line-height: 1.8;
-        max-width: 340px;
-      }
-
-      /* Live ID Card preview */
-      .id-preview-wrap {
+      /* ── Card ── */
+      .card {
         position: relative;
-      }
-      .id-preview-label {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.62rem;
-        color: #334155;
-        letter-spacing: 1.5px;
-        margin-bottom: 0.6rem;
-      }
-
-      .id-card {
-        background: var(--card-bg);
-        backdrop-filter: blur(12px);
+        z-index: 1;
+        /* background: var(--surface); */
+        background: rgba(30, 41, 59, 0.7);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
         border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 1.25rem 1.4rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        transition: border-color 0.3s;
-        position: relative;
-        overflow: hidden;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 420px;
+        padding: 44px 40px 40px;
+        box-shadow:
+          0 0 0 1px rgba(99, 179, 237, 0.04),
+          0 32px 64px -16px rgba(0, 0, 0, 0.7),
+          0 0 80px -20px rgba(99, 179, 237, 0.06);
+        animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
       }
-      .id-card::before {
+
+      /* Accent top line */
+      .card::before {
         content: "";
         position: absolute;
         top: 0;
-        left: 0;
-        width: 3px;
-        height: 100%;
-        background: var(--accent);
-        border-radius: 16px 0 0 16px;
-        box-shadow: 0 0 12px var(--accent-glow);
+        left: 10%;
+        right: 10%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--accent),
+          var(--indigo),
+          transparent
+        );
+        border-radius: 99px;
       }
 
-      .id-avatar {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        background: rgba(56, 189, 248, 0.1);
-        border: 1px solid rgba(56, 189, 248, 0.25);
-        overflow: hidden;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: var(--accent);
-      }
-      .id-avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: none;
-      }
-
-      .id-info {
-        flex: 1;
-        min-width: 0;
-      }
-      .id-name {
-        font-size: 0.9rem;
-        font-weight: 700;
-        letter-spacing: -0.2px;
-        color: var(--text);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin-bottom: 5px;
-      }
-      .id-email {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.68rem;
-        color: var(--muted);
-        letter-spacing: 0.3px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .id-badge {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.6rem;
-        letter-spacing: 1px;
-        padding: 3px 8px;
-        border-radius: 5px;
-        background: rgba(56, 189, 248, 0.08);
-        border: 1px solid rgba(56, 189, 248, 0.2);
-        color: var(--accent);
-        flex-shrink: 0;
-        transition: all 0.3s;
-      }
-
-      /* Bottom: back link */
-      .left-footer {
-        position: relative;
-        z-index: 1;
-      }
-      .back-link {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.72rem;
-        color: var(--muted);
-        letter-spacing: 1px;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        transition: color 0.2s;
-      }
-      .back-link:hover {
-        color: var(--accent);
-      }
-      .back-link svg {
-        width: 12px;
-        height: 12px;
-      }
-
-      /* ── RIGHT PANEL ── */
-      .right-panel {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: clamp(1.5rem, 4vh, 3rem) clamp(2rem, 5vw, 4rem);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .form-card {
-        width: 100%;
-        max-width: 400px;
-        animation: slideUp 0.65s ease-out both;
-      }
-
-      @keyframes slideUp {
+      @keyframes rise {
         from {
           opacity: 0;
-          transform: translateY(24px);
+          transform: translateY(28px) scale(0.98);
         }
         to {
           opacity: 1;
-          transform: translateY(0);
+          transform: translateY(0) scale(1);
         }
       }
 
-      /* Step indicator */
-      .step-track {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 1.75rem;
+      /* ── Header ── */
+      .card-header {
+        margin-bottom: 32px;
       }
-      .step-dot {
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(99, 179, 237, 0.08);
+        border: 1px solid rgba(99, 179, 237, 0.2);
+        border-radius: 99px;
+        padding: 4px 12px;
+        font-size: 0.7rem;
+        font-family: "DM Sans", monospace;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 16px;
+      }
+
+      .badge::before {
+        content: "";
         width: 6px;
         height: 6px;
-        border-radius: 50%;
-        background: var(--border);
-        transition: all 0.3s;
-      }
-      .step-dot.active {
         background: var(--accent);
-        box-shadow: 0 0 8px var(--accent-glow);
-        width: 20px;
-        border-radius: 3px;
-      }
-      .step-dot.done {
-        background: rgba(74, 222, 128, 0.5);
+        border-radius: 50%;
+        box-shadow: 0 0 6px var(--accent);
+        animation: pulse 2s ease-in-out infinite;
       }
 
-      .form-eyebrow {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.68rem;
-        color: var(--accent);
-        letter-spacing: 2px;
-        margin-bottom: 0.5rem;
-        opacity: 0.85;
-      }
-      .form-eyebrow::before {
-        content: "// ";
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
       }
 
-      .form-title {
-        font-size: 1.5rem;
+      h1 {
+        font-family: "Syne", sans-serif;
+        font-size: 2rem;
         font-weight: 800;
-        letter-spacing: -0.8px;
-        margin-bottom: 0.35rem;
-        background: linear-gradient(to right, #f8fafc, #94a3b8);
+        letter-spacing: -0.04em;
+        line-height: 1.1;
+        background: linear-gradient(
+          135deg,
+          #e2e8f0 30%,
+          var(--accent) 80%,
+          var(--indigo)
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
-      .form-subtitle {
-        font-size: 0.82rem;
+
+      .subtitle {
+        margin-top: 8px;
+        font-size: 0.875rem;
         color: var(--muted);
-        margin-bottom: 1.75rem;
-        line-height: 1.7;
-        word-spacing: 2px;
+        font-weight: 400;
+        line-height: 1.5;
       }
 
-      /* Fields */
-      .field {
-        margin-bottom: 1.4rem;
+      /* ── Form ── */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
       }
-      .field label {
-        display: block;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.65rem;
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      label {
+        font-size: 0.72rem;
+        font-weight: 500;
         letter-spacing: 1.5px;
         text-transform: uppercase;
         color: var(--muted);
-        margin-bottom: 0.5rem;
-      }
-      .field label span {
-        color: var(--error-pink);
       }
 
-      .input-wrap {
-        position: relative;
-        display: flex;
-        align-items: center;
-      }
-      .input-icon {
-        position: absolute;
-        left: 13px;
-        color: var(--muted);
-        width: 15px;
-        height: 15px;
-        flex-shrink: 0;
-        pointer-events: none;
-        transition: color 0.25s;
-      }
-
-      input[type="text"],
-      input[type="email"],
-      input[type="url"],
+      input,
       textarea {
         width: 100%;
         background: var(--input-bg);
         border: 1px solid var(--border);
-        border-radius: 11px;
-        padding: 11px 13px 11px 40px;
+        border-radius: 10px;
+        padding: 12px 14px;
         color: var(--text);
-        font-family: "Plus Jakarta Sans", sans-serif;
-        font-size: 0.875rem;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
         outline: none;
         transition:
-          border-color 0.25s,
-          box-shadow 0.25s,
-          background 0.25s;
-        -webkit-appearance: none;
+          border-color 0.2s,
+          box-shadow 0.2s,
+          background 0.2s;
       }
-      textarea {
-        padding-top: 11px;
-        resize: none;
-        height: 80px;
-        line-height: 1.6;
+
+      input::placeholder,
+      textarea::placeholder {
+        color: #334155;
       }
 
       input:focus,
       textarea:focus {
-        border-color: var(--accent);
-        background: rgba(15, 23, 42, 0.85);
+        border-color: var(--border-focus);
+        background: rgba(5, 10, 20, 0.9);
         box-shadow: 0 0 0 3px var(--accent-glow);
       }
-      input:focus ~ .input-icon,
-      .input-wrap:focus-within .input-icon {
-        color: var(--accent);
+
+      textarea {
+        resize: vertical;
+        min-height: 88px;
+        max-height: 200px;
+        line-height: 1.6;
       }
 
-      ::placeholder {
-        color: #475569;
-        font-size: 0.83rem;
-      }
-
-      /* Character counter for message */
-      .field-meta {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 4px;
-      }
-      .char-count {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.62rem;
-        color: #334155;
-        letter-spacing: 0.5px;
-      }
-      .char-count.warn {
-        color: #fbbf24;
-      }
-      .char-count.over {
-        color: var(--error-pink);
-      }
-
-      /* Img preview strip */
-      .img-preview {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        overflow: hidden;
-        flex-shrink: 0;
-        position: absolute;
-        right: 10px;
-        background: rgba(56, 189, 248, 0.08);
-        border: 1px solid rgba(56, 189, 248, 0.15);
-        display: none;
-        align-items: center;
-        justify-content: center;
-      }
-      .img-preview.visible {
-        display: flex;
-      }
-      .img-preview img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      /* Submit */
+      /* ── Submit button ── */
       .btn-submit {
+        margin-top: 8px;
         width: 100%;
-        margin-top: 1.2rem;
-        padding: 13px;
-        background: var(--accent);
-        color: #0f172a;
+        padding: 14px;
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--indigo) 100%
+        );
+        color: #05080f;
         border: none;
-        border-radius: 12px;
-        font-family: "Plus Jakarta Sans", sans-serif;
-        font-weight: 800;
-        font-size: 0.9rem;
-        letter-spacing: 0.3px;
+        border-radius: 10px;
+        font-family: "Syne", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
         cursor: pointer;
-        transition: all 0.3s;
         position: relative;
         overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s,
+          filter 0.2s;
       }
+
       .btn-submit::after {
         content: "";
         position: absolute;
         inset: 0;
-        background: linear-gradient(rgba(255, 255, 255, 0.12), transparent);
-        pointer-events: none;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.15),
+          transparent
+        );
+        border-radius: inherit;
       }
+
       .btn-submit:hover {
-        background: rgb(21, 169, 238);
         transform: translateY(-2px);
-        box-shadow: 0 0 24px -4px rgba(56, 189, 248, 0.5);
+        box-shadow: 0 8px 24px -6px rgba(99, 179, 237, 0.45);
+        filter: brightness(1.05);
       }
+
       .btn-submit:active {
         transform: translateY(0);
       }
-      .btn-submit svg {
-        width: 15px;
-        height: 15px;
-        flex-shrink: 0;
+
+      /* ── Divider ── */
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #1e293b;
+        font-size: 0.75rem;
+      }
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.06);
       }
 
-      /* Login nudge */
-      .form-footer-note {
+      /* ── Footer link ── */
+      .footer-link {
         text-align: center;
-        margin-top: 1.1rem;
-        font-size: 0.78rem;
+        font-size: 0.8rem;
         color: var(--muted);
       }
-      .form-footer-note a {
+      .footer-link a {
         color: var(--accent);
         text-decoration: none;
-        font-weight: 600;
-        transition: opacity 0.2s;
+        font-weight: 500;
       }
-      .form-footer-note a:hover {
-        opacity: 0.75;
-      }
-
-      /* ── RESPONSIVE ── */
-      @media (max-width: 820px) {
-        body {
-          flex-direction: column;
-          overflow: auto;
-        }
-        html,
-        body {
-          height: auto;
-          overflow: auto;
-        }
-        .left-panel {
-          width: 100%;
-          border-right: none;
-          border-bottom: 1px solid var(--border);
-          padding: 2rem clamp(1.5rem, 5vw, 2.5rem);
-          gap: 1.5rem;
-        }
-        .left-panel::after {
-          display: none;
-        }
-        .left-body {
-          flex-direction: row;
-          flex-wrap: wrap;
-          gap: 1.25rem;
-          align-items: flex-start;
-        }
-        .left-title {
-          font-size: 1.5rem;
-        }
-        .id-preview-wrap {
-          flex: 1;
-          min-width: 200px;
-        }
-        .left-footer {
-          display: none;
-        }
-        .right-panel {
-          padding: 2rem clamp(1.5rem, 5vw, 2.5rem);
-          align-items: flex-start;
-        }
-      }
-
-      @media (max-width: 520px) {
-        .left-body {
-          flex-direction: column;
-        }
-        .id-preview-wrap {
-          width: 100%;
-        }
-      }
-
-      /* Scrollbar */
-      body::-webkit-scrollbar {
-        width: 6px;
-      }
-      body::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      body::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 3px;
+      .footer-link a:hover {
+        text-decoration: underline;
       }
     </style>
   </head>
   <body>
-    <!-- ── LEFT ── -->
-    <div class="left-panel">
-      <div class="left-logo">
-        <a class="logo-mark" href="/">KNOWLEDGE_BASE</a>
-        <span class="logo-sub">// IDENTITY_SYSTEM</span>
-      </div>
+    <div class="bg-glow"></div>
+    <div class="bg-dots"></div>
 
-      <div class="left-body">
-        <div>
-          <p class="left-eyebrow">CREATE_ID v1.0</p>
-          <h1 class="left-title">Build Your<br />Digital Identity.</h1>
-          <p class="left-desc" style="margin-top: 0.9rem">
-            One profile that ties your learning, projects, and thinking together
-            inside the Knowledge Base.
-          </p>
-        </div>
-
-        <div class="id-preview-wrap">
-          <p class="id-preview-label">// LIVE_PREVIEW</p>
-          <div class="id-card">
-            <div class="id-avatar" id="preview-avatar">
-              <span id="avatar-initials">?</span>
-              <img id="avatar-img" src="" alt="" />
-            </div>
-            <div class="id-info">
-              <p class="id-name" id="preview-name">Your Name</p>
-              <p class="id-email" id="preview-email">email@domain.com</p>
-            </div>
-            <span class="id-badge" id="preview-badge">NEW</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="left-footer">
-        <a href="/" class="back-link">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-          Back to Home
-        </a>
-      </div>
-    </div>
-
-    <!-- ── RIGHT ── -->
-    <div class="right-panel">
-      <div class="form-card">
-        <!-- Step dots -->
-        <div class="step-track">
-          <div class="step-dot active" id="dot-1"></div>
-          <div class="step-dot" id="dot-2"></div>
-          <div class="step-dot" id="dot-3"></div>
-          <div class="step-dot" id="dot-4"></div>
-        </div>
-
-        <p class="form-eyebrow">IDENTITY_FORM</p>
-        <h2 class="form-title">Create Your ID</h2>
-        <p class="form-subtitle">
-          Visible across your projects, learnings, and notes.
-        </p>
-
-        <form action="/projects/submit" method="POST" id="id-form" novalidate>
-          <!-- Name -->
-          <div class="field">
-            <label for="f-name">Display Name <span>*</span></label>
-            <div class="input-wrap">
-              <svg
-                class="input-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-              <input
-                type="text"
-                id="f-name"
-                name="name"
-                placeholder="Omkar"
-                required
-                autofocus
-                autocomplete="name"
-              />
-            </div>
-          </div>
-
-          <!-- Image URL -->
-          <div class="field">
-            <label for="f-img">Avatar Image URL</label>
-            <div class="input-wrap">
-              <svg
-                class="input-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <polyline points="21 15 16 10 5 21" />
-              </svg>
-              <input
-                type="url"
-                id="f-img"
-                name="imgLink"
-                placeholder="https://example.com/avatar.jpg"
-              />
-              <div class="img-preview" id="img-preview-thumb">
-                <!-- <img id="img-thumb" src="" alt="" /> -->
-              </div>
-            </div>
-          </div>
-
-          <!-- Email -->
-          <div class="field">
-            <label for="f-email">Email Address <span>*</span></label>
-            <div class="input-wrap">
-              <svg
-                class="input-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <rect width="20" height="16" x="2" y="4" rx="2" />
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-              </svg>
-              <input
-                type="email"
-                id="f-email"
-                name="email"
-                placeholder="you@domain.com"
-                required
-                autocomplete="email"
-              />
-            </div>
-          </div>
-
-          <!-- Message / Bio -->
-          <div class="field">
-            <label for="f-message">Short Bio</label>
-            <div class="input-wrap" style="align-items: flex-start">
-              <svg
-                class="input-icon"
-                style="top: 12px; position: absolute"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-                />
-              </svg>
-              <textarea
-                id="f-message"
-                name="message"
-                placeholder="Learning in public. Building things that break and then work."
-                maxlength="140"
-              ></textarea>
-            </div>
-            <div class="field-meta">
-              <span class="char-count" id="char-count">0 / 140</span>
-            </div>
-          </div>
-
-          <button type="submit" class="btn-submit" id="submit-btn">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-              <polyline points="22 4 12 14.01 9 11.01" />
-            </svg>
-            Create My Identity
-          </button>
-        </form>
-
-        <p class="form-footer-note">
-          Already have an ID? <a href="/login">Sign in →</a>
+    <div class="card">
+      <div class="card-header">
+        <div class="badge">New Identity</div>
+        <h1>Create Your ID</h1>
+        <p class="subtitle">
+          Fill in your details below to generate a personalized identity card.
         </p>
       </div>
+
+      <form action="/projects/submit" method="POST">
+        <div class="field">
+          <label for="name">Full Name</label>
+          <input
+            id="name"
+            type="text"
+            name="name"
+            placeholder="e.g. Alex Rivera"
+            required
+            autofocus
+          />
+        </div>
+
+        <div class="field">
+          <label for="email">Email Address</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <div class="field">
+          <label for="imgLink">Avatar URL</label>
+          <input
+            id="imgLink"
+            type="url"
+            name="imgLink"
+            placeholder="https://example.com/photo.jpg"
+          />
+        </div>
+
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="3"
+            placeholder="Say something..."
+          ></textarea>
+        </div>
+
+        <button class="btn-submit" type="submit">Generate ID →</button>
+
+        <div class="divider">or</div>
+
+        <div class="footer-link">
+          Already have one? <a href="/">Return home</a>
+        </div>
+      </form>
     </div>
-
-    <script>
-      const nameIn = document.getElementById("f-name");
-      const emailIn = document.getElementById("f-email");
-      const imgIn = document.getElementById("f-img");
-      const msgIn = document.getElementById("f-message");
-      const charCount = document.getElementById("char-count");
-
-      const prevName = document.getElementById("preview-name");
-      const prevEmail = document.getElementById("preview-email");
-      const prevBadge = document.getElementById("preview-badge");
-      const avatarInit = document.getElementById("avatar-initials");
-      const avatarImg = document.getElementById("avatar-img");
-      const imgThumb = document.getElementById("img-thumb");
-      const imgThumbWrap = document.getElementById("img-preview-thumb");
-
-      // Step dots
-      const dots = [
-        document.getElementById("dot-1"),
-        document.getElementById("dot-2"),
-        document.getElementById("dot-3"),
-        document.getElementById("dot-4"),
-      ];
-
-      function updateDots() {
-        const filled = [
-          nameIn.value.trim(),
-          imgIn.value.trim(),
-          emailIn.value.trim(),
-          msgIn.value.trim(),
-        ];
-        filled.forEach((v, i) => {
-          dots[i].classList.remove("active", "done");
-          if (v) {
-            dots[i].classList.add("done");
-          }
-        });
-        // Find the first empty and mark active
-        const firstEmpty = filled.findIndex((v) => !v);
-        if (firstEmpty !== -1) dots[firstEmpty].classList.add("active");
-      }
-
-      // Name → preview
-      nameIn.addEventListener("input", () => {
-        const v = nameIn.value.trim();
-        prevName.textContent = v || "Your Name";
-        avatarInit.textContent = v
-          ? v
-              .split(" ")
-              .map((w) => w[0])
-              .join("")
-              .toUpperCase()
-              .slice(0, 2)
-          : "?";
-        updateDots();
-      });
-
-      // Email → preview
-      emailIn.addEventListener("input", () => {
-        prevEmail.textContent = emailIn.value.trim() || "email@domain.com";
-        updateDots();
-      });
-
-      // Image URL → preview card + thumb
-      let imgDebounce;
-      imgIn.addEventListener("input", () => {
-        clearTimeout(imgDebounce);
-        imgDebounce = setTimeout(() => {
-          const url = imgIn.value.trim();
-          if (!url) {
-            avatarImg.style.display = "none";
-            avatarInit.style.display = "block";
-            imgThumbWrap.classList.remove("visible");
-            return;
-          }
-          // Test load
-          const test = new Image();
-          test.onload = () => {
-            avatarImg.src = url;
-            avatarImg.style.display = "block";
-            avatarInit.style.display = "none";
-            imgThumb.src = url;
-            imgThumbWrap.classList.add("visible");
-          };
-          test.onerror = () => {
-            avatarImg.style.display = "none";
-            avatarInit.style.display = "block";
-            imgThumbWrap.classList.remove("visible");
-          };
-          test.src = url;
-          updateDots();
-        }, 600);
-      });
-
-      // Message char counter
-      msgIn.addEventListener("input", () => {
-        const len = msgIn.value.length;
-        charCount.textContent = `${len} / 140`;
-        charCount.className =
-          "char-count" +
-          (len > 130 ? " warn" : "") +
-          (len >= 140 ? " over" : "");
-        // Update badge text based on bio content
-        if (len > 10) {
-          prevBadge.textContent = "MEMBER";
-          prevBadge.style.color = "#4ade80";
-          prevBadge.style.borderColor = "rgba(74,222,128,0.3)";
-          prevBadge.style.background = "rgba(74,222,128,0.07)";
-        } else {
-          prevBadge.textContent = "NEW";
-          prevBadge.style.color = "";
-          prevBadge.style.borderColor = "";
-          prevBadge.style.background = "";
-        }
-        updateDots();
-      });
-
-      // Submit animation
-      document.getElementById("id-form").addEventListener("submit", (e) => {
-        // e.preventDefault();
-        const btn = document.getElementById("submit-btn");
-        btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="animation:spin 0.8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Creating...`;
-        btn.style.opacity = "0.8";
-        btn.disabled = true;
-        setTimeout(() => {
-          btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><polyline points="20 6 9 17 4 12"/></svg> Identity Created!`;
-          btn.style.opacity = "1";
-          btn.style.background = "#4ade80";
-        }, 1600);
-      });
-    </script>
-    <style>
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-    </style>
   </body>
 </html>

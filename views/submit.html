@@ -5,26 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Submission Successful</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --primary: #38bdf8;
-        --bg: #0f172a;
-        --glass: rgba(30, 41, 59, 0.7);
-        --text: #f8fafc;
+        --bg: #05080f;
+        --surface: rgba(10, 18, 35, 0.88);
+        --border: rgba(99, 179, 237, 0.15);
+        --accent: #63b3ed;
+        --accent-glow: rgba(99, 179, 237, 0.18);
+        --indigo: #818cf8;
+        --emerald: #34d399;
+        --emerald-glow: rgba(52, 211, 153, 0.15);
+        --text: #e2e8f0;
+        --muted: #64748b;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
 
       body {
-        margin: 0;
-        font-family: "Plus Jakarta Sans", sans-serif;
+        font-family: "DM Sans", sans-serif;
+        /* background: var(--bg); */
+        color: var(--text);
+        min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 100vh;
-        color: var(--text);
-        background-color: var(--bg);
+        /* overflow: hidden; */
+        position: relative;
+        background-color: #0f172a;
         background-image:
           radial-gradient(
             at 0% 0%,
@@ -38,196 +52,360 @@
           );
       }
 
+      /* ── Background ── */
+      .bg-glow {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .bg-glow::before {
+        content: "";
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        top: -250px;
+        right: -200px;
+        background: radial-gradient(
+          circle,
+          rgba(52, 211, 153, 0.05) 0%,
+          transparent 70%
+        );
+      }
+      .bg-glow::after {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        bottom: -150px;
+        left: -100px;
+        background: radial-gradient(
+          circle,
+          rgba(129, 140, 248, 0.07) 0%,
+          transparent 70%
+        );
+      }
+
+      .bg-dots {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-image: radial-gradient(
+          rgba(99, 179, 237, 0.06) 1px,
+          transparent 1px
+        );
+        background-size: 28px 28px;
+        pointer-events: none;
+      }
+
+      /* ── Card ── */
       .card {
-        background: var(--glass);
-        backdrop-filter: blur(12px);
-        padding: 3rem 2rem;
-        border-radius: 24px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        text-align: center;
-        max-width: 450px;
+        position: relative;
+        z-index: 1;
+        /* background: var(--surface); */
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--border);
+        border-radius: 20px;
         width: 90%;
-        animation: slideUp 0.5s ease-out;
+        max-width: 480px;
+        padding: 44px 40px 40px;
+        box-shadow:
+          0 0 0 1px rgba(52, 211, 153, 0.04),
+          0 32px 64px -16px rgba(0, 0, 0, 0.7),
+          0 0 80px -20px rgba(52, 211, 153, 0.05);
+        animation: rise 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+        background: rgba(30, 41, 59, 0.7);
       }
 
-      .icon-circle {
-        width: 60px;
-        height: 60px;
-        background: rgba(16, 185, 129, 0.15);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 1.5rem;
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 10%;
+        right: 10%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #3f51b5,
+          #03a9f4,
+          transparent
+        );
       }
 
-      .icon-circle svg {
-        width: 30px;
-        height: 30px;
-        color: #34d399;
-      }
-
-      .data-display {
-        background: rgba(15, 23, 42, 0.5);
-        border-radius: 16px;
-        padding: 20px;
-        margin: 20px 0;
-        text-align: left;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
-
-      .data-item {
-        font-size: 0.9rem;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-      }
-      .label {
-        color: var(--primary);
-        font-weight: 700;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        display: block;
-      }
-      .value {
-        color: #e2e8f0;
-        word-break: break-word;
-        line-height: 1.5;
-        word-spacing: 2px;
-      }
-
-      .btn {
-        display: block;
-        background-color: var(--primary);
-        color: #0f172a;
-        padding: 14px;
-        border-radius: 12px;
-        text-decoration: none;
-        font-weight: 700;
-        transition: all 0.2s;
-      }
-
-      @keyframes slideUp {
+      @keyframes rise {
         from {
           opacity: 0;
-          transform: translateY(20px);
+          transform: translateY(28px) scale(0.98);
         }
         to {
           opacity: 1;
-          transform: translateY(0);
+          transform: translateY(0) scale(1);
         }
+      }
+
+      /* ── Avatar ── */
+      .avatar-wrap {
+        position: relative;
+        width: 88px;
+        height: 88px;
+        margin: 0 auto 28px;
+      }
+
+      .avatar-wrap img {
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center top;
+        display: block;
+        border: 2px solid rgba(52, 211, 153, 0.3);
+        box-shadow:
+          0 0 0 4px rgba(52, 211, 153, 0.08),
+          0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      /* Success tick badge */
+      .avatar-badge {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 26px;
+        height: 26px;
+        background: var(--emerald);
+        border-radius: 50%;
+        border: 2px solid var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
+      }
+
+      @keyframes pop {
+        from {
+          opacity: 0;
+          transform: scale(0);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .avatar-badge svg {
+        width: 13px;
+        height: 13px;
+        color: #05080f;
+      }
+
+      /* ── Heading area ── */
+      .heading-area {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--emerald-glow);
+        border: 1px solid rgba(52, 211, 153, 0.25);
+        border-radius: 99px;
+        padding: 4px 12px;
+        font-size: 0.68rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--emerald);
+        margin-bottom: 14px;
+      }
+
+      h1 {
+        font-family: "Syne", sans-serif;
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        background: linear-gradient(135deg, #e2e8f0 20%, var(--emerald) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .subtitle {
+        margin-top: 6px;
+        font-size: 0.875rem;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      /* ── Data display ── */
+      .data-display {
+        background: rgba(5, 10, 20, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 28px;
+      }
+
+      .data-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 16px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        animation: fadeRow 0.4s ease both;
+      }
+
+      .data-item:last-child {
+        border-bottom: none;
+      }
+
+      .data-item:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .data-item:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .data-item:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+
+      @keyframes fadeRow {
+        from {
+          opacity: 0;
+          transform: translateX(-6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .label {
+        font-size: 0.65rem;
+        font-weight: 500;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      .value {
+        font-size: 0.9rem;
+        color: #cbd5e1;
+        line-height: 1.5;
+        word-break: break-word;
       }
 
       .nameClass {
         color: #4ade80;
-        font-weight: bold;
+        font-weight: 600;
+      }
+      .error {
+        color: rgba(248, 113, 113, 0.7);
+        font-style: italic;
       }
 
-      .error {
-        color: #f87171b3;
-        font-style: italic;
-        font-weight: 600;
+      /* ── Buttons ── */
+      .btn-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
       }
 
       .btn-primary,
       .btn-secondary {
-        padding: 14px 28px;
-        border-radius: 12px;
-        font-family: "Plus Jakarta Sans", sans-serif;
+        padding: 13px 20px;
+        border-radius: 10px;
+        font-family: "Syne", sans-serif;
+        font-size: 0.85rem;
         font-weight: 700;
-        font-size: 0.9rem;
+        letter-spacing: 0.02em;
         text-decoration: none;
-        transition: all 0.3s ease;
-        display: inline-block;
+        text-align: center;
+        display: block;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s,
+          filter 0.2s;
+        cursor: pointer;
       }
 
       .btn-primary {
-        background: #38bdf8;
-        color: #0f172a;
+        background: linear-gradient(135deg, var(--accent), var(--indigo));
+        color: #05080f;
+        border: none;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.12),
+          transparent
+        );
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px -6px var(--accent-glow);
+        filter: brightness(1.06);
       }
 
       .btn-secondary {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--muted);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.08);
         color: var(--text);
-        border: 1px solid var(--border);
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.15);
       }
 
-      @media (hover: hover) {
-        .btn-primary:hover {
-          background: rgb(21, 169, 238);
-          transform: translateY(-2px);
-          box-shadow: 0 0 24px -4px rgba(56, 189, 248, 0.5);
+      @media (max-width: 400px) {
+        .card {
+          padding: 36px 24px 32px;
         }
-
-        .btn-secondary:hover {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: rgba(255, 255, 255, 0.2);
-          transform: translateY(-2px);
+        .btn-group {
+          grid-template-columns: 1fr;
         }
-      }
-
-      .btn-wrapper {
-        display: flex;
-        word-spacing: 1.5px;
-        flex-wrap: wrap;
-        gap: 1rem;
-        align-items: center;
-        justify-content: center;
-        margin-top: 1rem;
-      }
-
-      .img-circle {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 1rem;
-      }
-
-      .img-circle img {
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        object-position: 0% 0%;
-        border: 2px solid #0f172a;
-        overflow: hidden;
-        box-shadow: 0 0 24px 18px rgba(0, 0, 0, 0.1);
       }
     </style>
   </head>
   <body>
-    <div class="card">
-      <!-- <div class="icon-circle">
-        <svg
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="3"
-            d="M5 13l4 4L19 7"
-          ></path>
-        </svg>
-      </div> -->
+    <div class="bg-glow"></div>
+    <div class="bg-dots"></div>
 
-      <div class="img-circle">
+    <div class="card">
+      <div class="avatar-wrap">
         <img
           src="{{imgLink}}"
-          alt=""
-          srcset=""
-          onerror="this.src = '{{fallbackImgLink}}'"
+          alt="Profile photo"
+          onerror="this.src='{{fallbackImgLink}}'"
         />
+        <div class="avatar-badge">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="3"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
       </div>
 
-      <h1>Success!</h1>
-      <p style="color: #94a3b8">Here is what you sent us:</p>
+      <div class="heading-area">
+        <div class="badge">Submitted</div>
+        <h1>ID Created!</h1>
+        <p class="subtitle">Here's a summary of what you sent us.</p>
+      </div>
 
       <div class="data-display">
         <div class="data-item">
@@ -244,8 +422,8 @@
         </div>
       </div>
 
-      <div class="btn-wrapper">
-        <a href="/projects/login" class="btn-primary">Try again</a>
+      <div class="btn-group">
+        <a href="/projects/login" class="btn-primary">Try Again</a>
         <a href="/" class="btn-secondary">Return Home</a>
       </div>
     </div>
