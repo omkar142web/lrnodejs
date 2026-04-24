@@ -54,19 +54,37 @@ function assignRoutes(routes) {
 assignRoutes(routes);
 
 // POST route (your special logic)
-app.post("/projects/submit", (req, res) => {
-  return IdGeneratorForm(req, res);
+app.post("/projects/submit", async (req, res) => {
+  try {
+    const html = await IdGeneratorForm(req.body);
+
+    res.status(200).send(html); // ✅ now this works
+  } catch (err) {
+    res.status(500).send("Something went wrong");
+  }
 });
 
 // catch-all (same as your routeError)
 app.use((req, res) => {
-  let filePath = path.join(__dirname, "views", "4042.html");
+  let filePath = path.join(__dirname, "views", "noRoute.html");
 
   res.status(404).sendFile(filePath, (err) => {
     if (err) {
       res.status(500).send("Even the Route-Error page not found! hehe :)");
     }
   });
+});
+
+app.use((err, req, res, next) => {
+  console.error("❌ ERROR:", err.message, "status code:", err.status || 500);
+
+  res
+    .status(err.status || 500)
+    .sendFile(path.join(__dirname, "views", "500.html"), (e) => {
+      if (e) {
+        res.send("even 500 file not working!, hehe");
+      }
+    });
 });
 
 // start server

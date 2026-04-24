@@ -1,12 +1,12 @@
-// import fs from "fs";
-import fs from "fs/promises";
-import path, { dirname } from "path";
+import fs from "fs";
+import path from "path";
 import { fileURLToPath } from "url";
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const IdGeneratorForm = async (data) => {
+const IdGeneratorForm = (req, res) => {
+  const data = req.body; // ✅ Express already parsed it
+
   let name = data.name
     ?.trim()
     .split(" ")
@@ -22,19 +22,24 @@ const IdGeneratorForm = async (data) => {
   const rawMsg = data.message?.trim();
   let message = rawMsg ? rawMsg[0].toUpperCase() + rawMsg.slice(1) : "N/A";
 
-  let dataFile = await fs.readFile(
-    path.join(__dirname, "../../views/submit.html"),
+  fs.readFile(
+    path.join(__dirname, "../../views/submit.html"), // ✅ fixed path
     "utf-8",
+    (err, dataFile) => {
+      if (err) {
+        return res.status(500).send("File read error");
+      }
+
+      dataFile = dataFile
+        .replace("{{name}}", name)
+        .replace("{{email}}", email)
+        .replace("{{message}}", message)
+        .replace("{{imgLink}}", imgLink)
+        .replace("{{fallbackImgLink}}", fallbackImgLink);
+
+      res.send(dataFile); // ✅ Express way
+    },
   );
-
-  dataFile = dataFile
-    .replace("{{name}}", name)
-    .replace("{{email}}", email)
-    .replace("{{message}}", message)
-    .replace("{{imgLink}}", imgLink)
-    .replace("{{fallbackImgLink}}", fallbackImgLink);
-
-  return dataFile; // ✅ now it returns
 };
 
 export { IdGeneratorForm };
